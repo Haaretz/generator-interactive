@@ -2,7 +2,7 @@
   "name": "@haaretz/generator-interactive",
   "version": "1.0.0",
   "description": "Scaffold an Haaretz interactive page or element",
-  "repository": "haaretz/generator-haaretz-generator-interactive",
+  "repository": "Haaretz/generator-interactive",
   "author": "TxHawks",
   "publishConfig": {
     "access": "public"
