@@ -29,9 +29,6 @@ module.exports = class extends Generator {
     if (this.options.elementName) this.elementName = kebabCase(this.options.elementName);
 
     this.cwd = this.destinationPath();
-
-    // // This won't be run automatically
-    // this.someUptlyNamedHelperMethod = function someUptlyNamedHelperMethod() { /* ... */ };
   }
 
   async prompting() {
@@ -67,6 +64,13 @@ module.exports = class extends Generator {
         message: 'Description (e.g., "A graph showing unemployment rates"):',
       },
       {
+        type: 'list',
+        name: 'language',
+        message: 'What language is your project in?',
+        choices: [ 'Hebrew', 'English', ],
+        default: 0,
+      },
+      {
         type: 'input',
         name: 'username',
         message: 'GitHub username',
@@ -91,8 +95,11 @@ module.exports = class extends Generator {
     const { username, description, } = this.answers;
     const camelizedName = camelCase(elementName);
     const year = new Date().getFullYear();
-    const remotePath = `/c/static/heb/${year}/${camelizedName}-project/`;
-    const remotePathPre = `/c/static/heb/${year}/${camelizedName}Pre-project/`;
+    const langShort = this.answers.language.toLowerCase().slice(0, 3);
+    const langCode = this.answers.language.toLowerCase().slice(0, 2);
+    const direction = langCode === 'he' ? 'rtl' : 'ltr';
+    const remotePath = `/c/static/${langShort}/${year}/${camelizedName}-project/`;
+    const remotePathPre = `/c/static/${langShort}/${year}/${camelizedName}Pre-project/`;
     this.remotePath = remotePath;
     this.remotePathPre = remotePathPre;
     if (this.answers.createDir) {
@@ -117,12 +124,14 @@ module.exports = class extends Generator {
       this.destinationPath('public/')
     );
     this.fs.copy(this.templatePath('.*'), this.destinationPath());
-    this.fs.copy(
-      this.templatePath('templates/**'),
-      this.destinationPath('templates/')
-    );
 
     // copy templates:
+    this.fs.copyTpl(
+      this.templatePath('templates/**'),
+      this.destinationPath('templates/'),
+      { langCode, direction, },
+      { delimiter: '$', }
+    );
     this.fs.copyTpl(
       this.templatePath('scripts/**'),
       this.destinationPath('scripts/'),

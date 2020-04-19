@@ -16,7 +16,6 @@
       - [@haaretz/sass-type](#haaretzsass-type)
       - [mq](#mq)
   - [Dev Scripts](#dev-scripts)
-    - [Scripts](#file-structure)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
