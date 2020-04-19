@@ -1,9 +1,12 @@
 {
   "name": "@haaretz/generator-interactive",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "Scaffold an Haaretz interactive page or element",
   "repository": "haaretz/generator-haaretz-generator-interactive",
   "author": "TxHawks",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "generators"
   ],
