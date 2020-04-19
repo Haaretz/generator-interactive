@@ -1,0 +1,18 @@
+// /////////////////////////////////////////////////////////////////////
+//                       CSS CUSTOM PROPERTIES                        //
+// /////////////////////////////////////////////////////////////////////
+
+:root {
+  // color
+  @include create-var(body-text, #2d2d2d);
+  @include create-var(negative, #fff);
+
+  // typography
+  @include generate-typography-custom-props(false);
+}
+
+.dark-mode {
+  // color
+  @include create-var(body-text, #ebebeb);
+  @include create-var(negative, #222);
+}

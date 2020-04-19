@@ -1,0 +1,9 @@
+@import '~jigsass-tools-maps';
+// See docs at: https://txhawks.github.io/jigsass-tools-mq/#mixin-jigsass-mq
+@import '~jigsass-tools-mq';
+
+@mixin mq($args...) {
+  @include jigsass-mq($args...) {
+    @content;
+  }
+}

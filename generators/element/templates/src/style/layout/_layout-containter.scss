@@ -1,0 +1,57 @@
+// /////////////////////////////////////////////////////////////////////
+//                              HELPERS                               //
+// /////////////////////////////////////////////////////////////////////
+
+@function strip-unit($num) {
+  @if (type-of($num) != number) {
+    @error 'strip-unit: `#{$num}` is a #{type-of($num)}, not a number.';
+  }
+
+  @if (not unitless($num)) {
+    $num: $num / ($num * 0 + 1);
+  }
+
+  @return $num;
+}
+
+@function _px2rem($size-in-px, $bp) {
+  $rem-size: strip-unit(map-get($htz-rem-size, $bp));
+
+  @if not index((px, ""), unit($size-in-px)) {
+
+    @error '_px2rem: `$size-in-px` must be passed as a unitless number. You passed: #{$size-in-px}';
+  }
+
+  @return strip-unit($size-in-px) / $rem-size * 1rem;
+}
+
+@function _get-layout-size($bp) {
+  $max-width-in-px: map-get($htz-layout-max-width, $bp);
+
+  @return _px2rem($max-width-in-px, $bp);
+}
+
+
+
+// /////////////////////////////////////////////////////////////////////
+//                               Styles                               //
+// /////////////////////////////////////////////////////////////////////
+
+@include b('layout-container'){
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+
+  @include mq($from: s) {
+    max-width: _get-layout-size(s);
+  }
+  @include mq($from: m) {
+    max-width: _get-layout-size(m);
+  }
+  @include mq($from: l) {
+    max-width: _get-layout-size(l);
+  }
+  @include mq($from: xl) {
+    max-width: _get-layout-size(xl);
+  }
+}

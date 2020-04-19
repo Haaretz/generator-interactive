@@ -1,0 +1,58 @@
+$selector-prefix: '<%= classPrefix %>';
+$font-stack: "Open Sans Hebrew", "Helvetica Neue", tahoma, Helvetica, Arial, sans-serif;
+
+$jigsass-breakpoints: (
+  lengths: (
+    default: 0,
+    xxs: 320px,
+    xs: 410px,
+    s: 600px,
+    m: 768px,
+    l: 1024px,
+    xl: 1280px,
+  ),
+
+  features: (
+    landscape: '(orientation: landscape)',
+    portrait: '(orientation: portrait)',
+  ),
+);
+
+$htz-layout-max-width: (
+  s: 600,
+  m: 768,
+  l: 1024,
+  xl: 1263,
+);
+
+$htz-rem-size: (
+  default: 6,
+  xxs: 6,
+  xs: 6,
+  s: 6,
+  m: 6,
+  l: 6,
+  xl: 7,
+);
+
+$htz-typescale-steps: (
+  -4: false,
+  -3: false,
+  -2: false,
+  -1: false,
+  0: true,
+  1: false,
+  2: false,
+  3: false,
+  4: false,
+  5: false,
+  6: false,
+  7: false,
+  8: false,
+  9: false,
+  10: false,
+  11: false,
+  12: false,
+  13: false,
+  14: false,
+);

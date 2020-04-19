@@ -1,0 +1,58 @@
+{
+  "name": "<%= elementName %>",
+  "version": "1.0.0",
+  <% if (description) { %>
+  "description": "<%= description %>",
+  <% } %>
+  "scripts": {
+    "build": "yarn clean && NODE_ENV=production rollup -c",
+    "build:pre": "yarn clean && IS_PRE=true NODE_ENV=production rollup -c",
+    "clean": "rm -rf ./public/*.{js,json,css,map,html}",
+    "deploy": "yarn build && ssh polopoly@172.21.1.80 'rm -rf /http-static<%= remotePath %> && mkdir -p $_' && scp -r ./public/* polopoly@172.21.1.80:/http-static<%= remotePath %>",
+    "deploy:pre": "yarn build:pre && ssh polopoly@172.21.1.80 'rm -rf /http-static<%= remotePathPre %> && mkdir -p $_' && scp -r ./public/* polopoly@172.21.1.80:/http-static<%= remotePathPre %>",
+    "dev": "npm-run-all --parallel serve watch",
+    "format": "eslint . --fix",
+    "gc": "git cz",
+    "serve": "live-server --port=${PORT:-'5000'} --wait=500 --no-browser public/",
+    "test:watch": "jest --watch",
+    "test": "yarn format && && jest",
+    "watch": "NODE_ENV=dev rollup -c -w"
+  },
+  <% if (username) { %>
+  "author": "<%= username %>",
+  <% } %>
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Haaretz/<%= elementName %>.git"
+  },
+  "bugs": {
+    "url": "git+https://github.com/Haaretz/<%= elementName %>/issues"
+  },
+  "homepage": "git+https://github.com/Haaretz/<%= elementName %>/",
+  "config": {
+    "publicDir": "./public/",
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Safari versions",
+    "last 2 iOS versions",
+    "last 2 Edge versions",
+    "Firefox ESR"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -e"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --cache --fix",
+      "yarn test"
+    ],
+    "README.md" :"doctoc --github"
+  }
+}

@@ -1,0 +1,24 @@
+// /////////////////////////////////////////////////////////////////////
+//                               FONTS                                //
+// /////////////////////////////////////////////////////////////////////
+@font-face{
+  font-weight:200;
+  font-display:fallback;
+  src:url('/static/fonts/OpenSansHebrewLight.woff2') format('woff2'),
+    url('/static/fonts/OpenSansHebrewLight.woff') format('woff');
+  font-family:"Open Sans Hebrew"
+}
+@font-face{
+  font-weight:400;
+  font-display:fallback;
+  src:url('/static/fonts/OpenSansHebrewRegular.woff2') format('woff2'),
+    url('/static/fonts/OpenSansHebrewRegular.woff') format('woff');
+  font-family:"Open Sans Hebrew"
+}
+@font-face{
+  font-weight:700;
+  font-display:fallback;
+  src:url('/static/fonts/OpenSansHebrewBold.woff2') format('woff2'),
+    url('/static/fonts/OpenSansHebrewBold.woff') format('woff');
+  font-family:"Open Sans Hebrew"
+}

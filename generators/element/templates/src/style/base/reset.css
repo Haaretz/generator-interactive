@@ -1,0 +1,391 @@
+@if $isDev == true {
+  /**************************************************
+   *                                                *
+   *  Base styles for development and app use only  *
+   *                                                *
+   **************************************************/
+
+  *,
+  ::before,
+  ::after {
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+  }
+
+  ::before,
+  ::after {
+    text-decoration: inherit;
+    vertical-align: inherit;
+  }
+
+  html {
+    box-sizing: border-box;
+    color: #2D2D2D;
+    cursor: default;
+    font-family: "Open Sans Hebrew", "Helvetica Neue", tahoma, Helvetica, Arial, sans-serif;
+    min-height: 100%;
+    overflow-anchor: auto;
+    overflow-x: hidden;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (max-width: 79.9375em) {
+    html {
+      font-size: 6px;
+    }
+  }
+
+  @media (min-width: 80em) {
+    html {
+      font-size: 7px;
+    }
+  }
+
+  @media (max-width: 79.9375em) {
+    body {
+      font-size: 2.6666666666666665rem;
+      line-height: 1.5em;
+    }
+  }
+
+  @media (min-width: 80em) {
+    body {
+      font-size: 2.5714285714285716rem;
+      line-height: 1.5555555555555556em;
+    }
+  }
+
+  article,
+  aside,
+  details,
+  figcaption,
+  figure,
+  footer,
+  header,
+  menu,
+  nav,
+  main,
+  section {
+    display: block;
+  }
+
+  blockquote,
+  body,
+  button,
+  caption,
+  dd,
+  dl,
+  fieldset,
+  figure,
+  form,
+  iframe,
+  input,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  hr,
+  label,
+  legend,
+  ol,
+  optgroup,
+  p,
+  pre,
+  table,
+  td,
+  textarea,
+  th,
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 1em;
+  }
+
+  hr {
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+  }
+
+  ol,
+  ul {
+    list-style: none;
+  }
+
+  pre {
+    font-family: monospace, monospace;
+    font-size: 1em;
+  }
+
+  a {
+    background-color: transparent;
+    text-decoration: none;
+    -webkit-text-decoration-skip: skip;
+    text-decoration-skip-ink: auto;
+  }
+
+  a,
+  a:visited,
+  a:hover,
+  a:active,
+  a:focus {
+    color: inherit;
+  }
+
+  abbr[title] {
+    text-decoration: underline;
+    text-decoration: underline dotted;
+  }
+
+  address {
+    font-style: normal;
+  }
+
+  b,
+  strong {
+    font-weight: 700;
+  }
+
+  code,
+  kbd,
+  samp {
+    font-family: monospace, monospace;
+    font-size: 1em;
+  }
+
+  mark {
+    background-color: #FFE70C;
+    color: #2D2D2D;
+  }
+
+  sub,
+  sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+
+  sub {
+    bottom: -.25em;
+  }
+
+  sup {
+    top: -.5em;
+  }
+
+  ::-moz-selection {
+    background-color: #FFE70C;
+    color: #2D2D2D;
+    text-shadow: none;
+  }
+
+  ::selection {
+    background-color: #FFE70C;
+    color: #2D2D2D;
+    text-shadow: none;
+  }
+
+  audio,
+  canvas,
+  iframe,
+  img,
+  svg,
+  video {
+    vertical-align: middle;
+  }
+
+  svg {
+    fill: currentColor;
+  }
+
+  svg:not(:root) {
+    overflow: hidden;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  label,
+  input,
+  button,
+  select,
+  option,
+  [role="button"],
+  [aria-controls] {
+    cursor: pointer;
+  }
+
+  [contenteditable]:not([contenteditable="false"]),
+  input[type="email"],
+  input[type="email"]:active,
+  input[type="password"],
+  input[type="password"]:focus,
+  input[type="password"]:active,
+  input[type="search"],
+  input[type="search"]:focus,
+  input[type="search"]:active,
+  input[type="text"],
+  input[type="text"]:focus,
+  input[type="text"]:activetextarea,
+  textarea:active,
+  textarea:focus {
+    cursor: text;
+    outline: none;
+  }
+
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    display: none
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    font-family: inherit;
+  }
+
+  button,
+  input {
+    overflow: visible;
+  }
+
+  button,
+  select {
+    text-transform: none;
+  }
+
+  input,
+  button,
+  select,
+  textarea {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    border: 0;
+  }
+
+  button,
+  [type="button"],
+  [type="reset"],
+  [type="submit"] {
+    background-color: transparent;
+    border: 0;
+    color: inherit;
+  }
+
+  button::-moz-focus-inner,
+  [type="button"]::-moz-focus-inner,
+  [type="reset"]::-moz-focus-inner,
+  [type="submit"]::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+    outline: none;
+  }
+
+  legend {
+    box-sizing: border-box;
+    color: inherit;
+    display: table;
+    max-width: 100%;
+    padding: 0;
+    white-space: normal;
+  }
+
+  progress {
+    vertical-align: baseline;
+  }
+
+  textarea {
+    overflow: auto;
+  }
+
+  [type="checkbox"],
+  [type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+  }
+
+  [type="number"]::-webkit-inner-spin-button,
+  [type="number"]::-webkit-outer-spin-button {
+    height: auto;
+  }
+
+  [type="search"] {
+    outline-offset: -2px;
+  }
+
+  ::-webkit-file-upload-button {
+    font: inherit;
+  }
+
+  summary {
+    display: list-item;
+  }
+
+  template {
+    display: none;
+  }
+
+  a,
+  area,
+  button,
+  input,
+  label,
+  select,
+  summary,
+  textarea,
+  [tabindex] {
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+  }
+
+  [hidden] {
+    display: none;
+  }
+
+  [aria-busy="true"] {
+    cursor: progress;
+  }
+
+  [aria-controls] {
+    cursor: pointer;
+  }
+
+  [aria-hidden="false"][hidden]:not(:focus) {
+    border: 0;
+    clip: rect(0 0 0 0);
+    clipPath: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    whiteSpace: nowrap;
+  }
+
+  [disabled]:not([disabled="false"]),
+  [aria-disabled] {
+    cursor: not-allowed;
+  }
+}

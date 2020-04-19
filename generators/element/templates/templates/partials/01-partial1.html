@@ -1,0 +1,31 @@
+<script>
+  (function () {
+    // Add `is-app` class to `<html>` and `is-dark-mode` class `<body>`
+    // as needed based on query params
+    var bodyClasses = window.location.search
+      .slice(1).split('&')
+      .forEach(param => {
+        switch (true) {
+          case param === 'darkMode=true':
+            document.body.classList.add('is-dark-mode');
+            break;
+          case param === 'isApp=true':
+            document.documentElement.classList.add('is-app');
+            break;
+        }
+      });
+  })()
+</script>
+<link rel="stylesheet" href="<%= pathPrefix %><%= cssFile %>">
+
+<!--
+  Inside templates, you can use the `classPrefix` variable
+  to print the selector-prefix automatically used by the Sass
+  BEM mixins.
+-->
+<div class="<%= classPrefix %>-layout-container">
+  Edit "templates/partials/01-partial1.html" to change this
+</div>
+
+<script type="module" src="<%= pathPrefix %><%= moduleFile %>"></script>
+<script nomodule src="<%= pathPrefix %><%= nomoduleFile %>"></script>
