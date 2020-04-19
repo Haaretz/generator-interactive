@@ -157,8 +157,14 @@ The following scripts are available to aid the development process:
   * **yarn deploy:** Create a production-optimized build and deploy to
     _`https://haaretz.co.il/st<%= remotePath %>`_.
 
-  * **yarn deploy:pre:** Create a production-optimized build for testing and deploy
+    This will also deploy the html (pages and partials, see [html](#html)), so
+    it can be viewd in isolation and included in elements.
+
+  * **yarn deploy:pre:** Create a production-optimized build for _testing_ and deploy
     to _`https://haaretz.co.il/st<%= remotePathPre %>`_.
+
+    This will also deploy the html (pages and partials, see [html](#html)), so
+    it can be viewd in isolation and included in elements.
 
   * **yarn format:** Lint files with autofixing.
 
