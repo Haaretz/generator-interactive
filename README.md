@@ -8,19 +8,13 @@ No need to install anything. Create the directory you'd like to
 scaffold your your project in, `cd` into it and simply:
 
 ```sh
-yarn create yo @haaretz/interactive:element
-```
-
-or with npm:
-
-```sh
-npm init yo @haaretz/interactive:element
+npx -p yo -p @haaretz/generator-interactive -c 'yo @haaretz/interactive:element'
 ```
 
 Alternatively, you can specify a directory name to create in the command line:
 
 ```bash
-yarn create yo @haaretz/interactive:element my-project-name
+npx -p yo -p @haaretz/generator-interactive -c 'yo @haaretz/interactive:element my-project-name'
 ```
 
 Your new project will now be git initialized with all base files committed,
