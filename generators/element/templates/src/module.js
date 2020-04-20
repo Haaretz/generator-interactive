@@ -6,4 +6,4 @@ import { init, } from './index.js';
 dynamicImportPolyfill.initialize({modulePath: './'});
 
 // Start the app.
-inti();
+init();
