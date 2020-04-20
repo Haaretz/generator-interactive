@@ -182,6 +182,7 @@ module.exports = class extends Generator {
         'chalk',
         'commitizen',
         'cross-spawn',
+        'cross-env',
         'cssnano',
         'cz-conventional-changelog',
         'doctoc',

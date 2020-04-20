@@ -5,8 +5,8 @@
   "description": "<%= description %>",
   <% } %>
   "scripts": {
-    "build": "yarn clean && NODE_ENV=production rollup -c",
-    "build:pre": "yarn clean && IS_PRE=true NODE_ENV=production rollup -c",
+    "build": "yarn clean && cross-env NODE_ENV=production rollup -c",
+    "build:pre": "yarn clean && cross-env IS_PRE=true NODE_ENV=production rollup -c",
     "clean": "rm -rf ./public/*.{js,json,css,map,html}",
     "deploy": "yarn build && ssh polopoly@172.21.1.80 'rm -rf /http-static<%= remotePath %> && mkdir -p $_' && scp -r ./public/* polopoly@172.21.1.80:/http-static<%= remotePath %>",
     "deploy:pre": "yarn build:pre && ssh polopoly@172.21.1.80 'rm -rf /http-static<%= remotePathPre %> && mkdir -p $_' && scp -r ./public/* polopoly@172.21.1.80:/http-static<%= remotePathPre %>",
