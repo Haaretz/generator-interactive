@@ -6,6 +6,7 @@ const chalk = require('chalk');
 const yosay = require('yosay');
 const { camelCase, } = require('camel-case');
 const rimraf = require('rimraf');
+const commandExistsSync = require('command-exists').sync;
 
 // Run loop order:
 // 1. initializing
@@ -102,6 +103,7 @@ module.exports = class extends Generator {
     const remotePathPre = `/c/static/${langShort}/${year}/${camelizedName}Pre-project/`;
     this.remotePath = remotePath;
     this.remotePathPre = remotePathPre;
+
     if (this.answers.createDir) {
       this.log(chalk.magenta(`Creating ${elementName}`));
       mkdirp(elementName);
@@ -161,8 +163,10 @@ module.exports = class extends Generator {
   }
 
   installPackages() {
+    this.isYarnAvailable = commandExistsSync('yarn');
+    const install = (this.isYarnAvailable ? this.yarnInstall : this.npmInstall).bind(this);
     // Install devDependencies
-    this.yarnInstall(
+    install(
       [
         '@babel/core',
         '@babel/preset-env',
@@ -206,21 +210,21 @@ module.exports = class extends Generator {
     );
 
     // Install project dependencies
-    this.yarnInstall([
+    install([
       'core-js',
       'dynamic-import-polyfill',
       'regenerator-runtime',
     ]);
 
     // Install user-selected dependencies
-    if (this.answers.userdeps.length > 0) this.yarnInstall(this.answers.userdeps);
+    if (this.answers.userdeps.length > 0) install(this.answers.userdeps);
   }
 
   install() {
     this.installDependencies({
-      npm: false,
       bower: false,
-      yarn: true,
+      npm: !this.isYarnAvailable,
+      yarn: this.isYarnAvailable,
     });
   }
 
