@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const { execSync, } = require('child_process');
 const mkdirp = require('mkdirp');
 const Generator = require('yeoman-generator');
@@ -229,9 +230,6 @@ module.exports = class extends Generator {
   }
 
   end() {
-    // remove yo-related files
-    rimraf.sync('.yo-*');
-
     // const relativePath = path.relative(process.cwd(), this.destinationPath());
     const elementName = this.elementName;
     const isInSubdir = this.destinationPath() !== this.cwd;
@@ -390,6 +388,13 @@ module.exports = class extends Generator {
         '*\n* ******************************************************\n\n'
       )
     );
+
+    // remove yo-related files
+    [ '.yo-repository', '.yo-rc.json', ]
+      .forEach(filename => {
+        const filePath = path.join(this.cwd, filename);
+        rimraf.sync(filePath);
+      });
   }
 };
 
