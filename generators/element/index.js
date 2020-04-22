@@ -171,20 +171,20 @@ module.exports = class extends Generator {
     );
 
     if (this.options.debug) {
-      this.log(this.chalk.red('\nCopying from "public/"'));
+      this.log(chalk.red('\nCopying from "public/"'));
       fs.readdirSync(this.templatePath('public'))
         .forEach(filename => {
           this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
         });
       this.log();
-      this.log(this.chalk.red('\nCopying dotfiles'));
+      this.log(chalk.red('\nCopying dotfiles'));
       fs.readdirSync(this.templatePath())
         .filter(filename => filename.startsWith('.'))
         .forEach(filename => {
           this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
         });
       this.log();
-      this.log(this.chalk.red('\nCopying from "templates/"'));
+      this.log(chalk.red('\nCopying from "templates/"'));
       fs.readdirSync(this.templatePath('templates/pages'))
         .forEach(filename => {
           this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), `pages/${filename}`)));
@@ -194,7 +194,7 @@ module.exports = class extends Generator {
           this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), `partials/${filename}`)));
         });
       this.log();
-      this.log(this.chalk.red('\nCopying from "scripts"'));
+      this.log(chalk.red('\nCopying from "scripts"'));
       fs.readdirSync(this.templatePath('scipts'))
         .forEach(filename => {
           this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
