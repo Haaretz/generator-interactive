@@ -28,6 +28,13 @@ module.exports = class extends Generator {
       description: 'The name of the element being built',
     });
 
+    this.option('debug', {
+      desc: 'Run in debug mode',
+      alias: 'd',
+      type: Boolean,
+      default: false,
+    });
+
     if (this.options.elementName) this.elementName = kebabCase(this.options.elementName);
 
     this.cwd = this.destinationPath();
@@ -127,6 +134,15 @@ module.exports = class extends Generator {
       this.destinationPath('public/')
     );
     this.fs.copy(this.templatePath('.*'), this.destinationPath());
+
+    if (this.options.debug) {
+      // check that all dotfiles were copied
+      fs.readdirSync(this.templatePath())
+        .filter(filename => filename.startsWith('.'))
+        .forEach(filename => {
+          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
+        });
+    }
 
     // copy templates:
     this.fs.copyTpl(
