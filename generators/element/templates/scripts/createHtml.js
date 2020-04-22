@@ -26,7 +26,7 @@ export default function createHtml({
     moduleFile,
     nomoduleFile,
     pathPrefix,
-    classPrefix: <$= classPrefix $>,
+    classPrefix: '<$= classPrefix $>',
   };
 
   const partials = fs.readdirSync(PARTIALS_PATH).map(partialPath => {
