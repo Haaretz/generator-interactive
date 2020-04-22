@@ -8,7 +8,8 @@
     "access": "public"
   },
   "files": [
-    "generators"
+    "generators",
+    "common"
   ],
   "main": "generators/index.js",
   "keywords": [
@@ -30,6 +31,7 @@
     "eslint-plugin-jest": "^23.8.2",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "glob": "^7.1.6",
     "jest": "^25.3.0",
     "yeoman-assert": "^3.1.0",
     "yeoman-test": "^2.4.1"

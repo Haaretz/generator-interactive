@@ -9,6 +9,7 @@ const { camelCase, } = require('camel-case');
 const rimraf = require('rimraf');
 
 const shouldUseYarn = require('../../common/shouldUseYarn');
+const lsMinR = require('../../common/lsMinR');
 
 // Run loop order:
 // 1. initializing
@@ -170,37 +171,6 @@ module.exports = class extends Generator {
       this.destinationPath('README.md'),
       { description, remotePath, remotePathPre, elementName, }
     );
-
-    if (this.options.debug) {
-      this.log(chalk.red('\nCopying from "public/"'));
-      fs.readdirSync(this.templatePath('public'))
-        .forEach(filename => {
-          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
-        });
-      this.log();
-      this.log(chalk.red('\nCopying dotfiles'));
-      fs.readdirSync(this.templatePath())
-        .filter(filename => filename.startsWith('.'))
-        .forEach(filename => {
-          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
-        });
-      this.log();
-      this.log(chalk.red('\nCopying from "templates/"'));
-      fs.readdirSync(this.templatePath('templates/pages'))
-        .forEach(filename => {
-          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), `pages/${filename}`)));
-        });
-      fs.readdirSync(this.templatePath('templates/partials'))
-        .forEach(filename => {
-          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), `partials/${filename}`)));
-        });
-      this.log();
-      this.log(chalk.red('\nCopying from "scripts"'));
-      fs.readdirSync(this.templatePath('scripts'))
-        .forEach(filename => {
-          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
-        });
-    }
   }
 
   installPackages() {
@@ -271,6 +241,22 @@ module.exports = class extends Generator {
   }
 
   end() {
+    if (this.options.debug) {
+      this.log(chalk.red('\nCopying dotfiles'));
+      fs.readdirSync(this.templatePath())
+        .filter(filename => filename.startsWith('.'))
+        .forEach(filename => {
+          this.log(filename);
+        });
+      this.log('gitignore -> .gitignore');
+      this.log(chalk.red('\nCopying from "public/"'));
+      lsMinR('public').forEach(filename => this.log(filename));
+      this.log(chalk.red('\nCopying from "templates/"'));
+      lsMinR('templates').forEach(filename => this.log(filename));
+      this.log(chalk.red('\nCopying from "scripts"'));
+      lsMinR('scripts').forEach(filename => this.log(filename));
+    }
+
     // const relativePath = path.relative(process.cwd(), this.destinationPath());
     const elementName = this.elementName;
     const isInSubdir = this.destinationPath() !== this.cwd;
