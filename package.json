@@ -1,6 +1,6 @@
 {
   "name": "@haaretz/generator-interactive",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Scaffold an Haaretz interactive page or element",
   "repository": "Haaretz/generator-interactive",
   "author": "TxHawks",
