@@ -7,7 +7,8 @@ const chalk = require('chalk');
 const yosay = require('yosay');
 const { camelCase, } = require('camel-case');
 const rimraf = require('rimraf');
-const commandExistsSync = require('command-exists').sync;
+
+const shouldUseYarn = require('../../common/shouldUseYarn');
 
 // Run loop order:
 // 1. initializing
@@ -195,7 +196,7 @@ module.exports = class extends Generator {
         });
       this.log();
       this.log(chalk.red('\nCopying from "scripts"'));
-      fs.readdirSync(this.templatePath('scipts'))
+      fs.readdirSync(this.templatePath('scripts'))
         .forEach(filename => {
           this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
         });
@@ -203,7 +204,7 @@ module.exports = class extends Generator {
   }
 
   installPackages() {
-    this.isYarnAvailable = commandExistsSync('yarn');
+    this.isYarnAvailable = shouldUseYarn();
     const install = (this.isYarnAvailable ? this.yarnInstall : this.npmInstall).bind(this);
     // Install devDependencies
     install(
