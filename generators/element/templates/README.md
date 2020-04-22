@@ -146,12 +146,33 @@ for more details and configuration options.
 
 The following scripts are available to aid the development process:
 
-  * **yarn dev:** Start a development server on port 5000. To change the default
-    port, pass the _PORT_ variable:
+  * **yarn dev:** Start a development server on port 5000.<br />
+    Env variables:
+    * `PORT`: Set the live-server port. _Default: `5000`_.
+      ```sh
+      PORT=8080 yarn dev
+      ```
 
-    ```sh
-    PORT=6060 yarn dev
-    ```
+    * `HOST`: Set a host to serve from the live server. Must be one that is mapped
+      to `localhost` or `127.0.0.1` in your local `hosts` file. Useful when and
+      haaretz domain is needed for `CORS`. Will automatically open a browser
+      window pointing to this address when defined.
+      ```sh
+      HOST="me.haaretz.co.il" yarn dev
+      ```
+
+    * `OPEN`: Automatically open a browser window pointing to `HOST` or `127.0.0.1`
+      even if `HOST` is not defined. _Default: `false`_
+
+      ```sh
+      OPEN=true yarn dev
+      ```
+
+    * `WAIT`: Time in milliseconds to wait before reloading. _Default: `500`_
+
+      ```sh
+      WAIT=500 yarn dev
+      ```
 
   * **yarn deploy:** Create a production-optimized build and deploy to
     _`https://haaretz.co.il/st<%= remotePath %>`_.

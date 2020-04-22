@@ -13,7 +13,7 @@
     "dev": "npm-run-all --parallel serve watch",
     "format": "eslint . --fix",
     "gc": "git cz",
-    "serve": "live-server --port=${PORT:-'5000'} --wait=500 --no-browser public/",
+    "serve": "cross-env-shell node scripts/serve.js",
     "test:watch": "jest --watch",
     "test": "yarn format && && jest",
     "watch": "cross-env NODE_ENV=dev rollup -c -w"
