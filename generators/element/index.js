@@ -134,6 +134,7 @@ module.exports = class extends Generator {
       this.destinationPath('public/')
     );
     this.fs.copy(this.templatePath('.*'), this.destinationPath());
+    this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'));
 
     // copy templates:
     this.fs.copyTpl(
