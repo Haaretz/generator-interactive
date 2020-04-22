@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const { execSync, } = require('child_process');
 const mkdirp = require('mkdirp');
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
@@ -10,6 +9,8 @@ const rimraf = require('rimraf');
 
 const shouldUseYarn = require('../../common/shouldUseYarn');
 const lsMinR = require('../../common/lsMinR');
+const initializeGit = require('../../common/initializeGit');
+const createInitialGitCommit = require('../../common/createInitialGitCommit');
 
 // Run loop order:
 // 1. initializing
@@ -218,7 +219,7 @@ module.exports = class extends Generator {
         'rollup-plugin-postcss',
         'rollup-plugin-terser',
       ],
-      { dev: true, }
+      { [this.isYarnAvailable ? 'dev' : 'save-dev']: true, }
     );
 
     // Install project dependencies
@@ -233,6 +234,11 @@ module.exports = class extends Generator {
   }
 
   install() {
+    // We need to initialize git before installing dependencies
+    // because husky requires the '.git' dir to already exist before it
+    // is installed.
+    this.gitInitialized = initializeGit(this.templatePath());
+
     this.installDependencies({
       bower: false,
       npm: !this.isYarnAvailable,
@@ -241,6 +247,8 @@ module.exports = class extends Generator {
   }
 
   end() {
+    this.initialCommitCreated = createInitialGitCommit(this.gitInitialized);
+
     if (this.options.debug) {
       this.log(chalk.red('\nCopying dotfiles'));
       fs.readdirSync(this.templatePath())
@@ -388,20 +396,32 @@ module.exports = class extends Generator {
       chalk.cyan('\n*')
     );
 
-    const gitOptions = {
-      // cwd: relativePath || './',
-      encoding: 'utf-8',
-    };
-
-    // Initialize destination as a git repository and create an initial commit
-    execSync('git init ./', gitOptions);
-    execSync('git add ./', gitOptions);
-    execSync('git commit --no-verify -m "chore: Initial commit"', gitOptions);
-
-    this.log(
-      chalk.cyan('* '),
-      'Initialized a git repository and committed all base files.'
-    );
+    if (this.gitInitialized) {
+      if (this.initialCommitCreated) {
+        this.log(
+          chalk.cyan('* '),
+          'Initialized a git repository and committed all base files.'
+        );
+      }
+      else {
+        this.log(
+          chalk.cyan('* '),
+          'Initialized a git repository but failed to create initial commit.'
+        );
+      }
+    }
+    else {
+      this.log(
+        chalk.cyan('* '),
+        'Project could not be initialized as git repository.'
+      );
+      this.log(
+        chalk.cyan('* '),
+        `Please initiate it manualy and run ${
+          this.isYarnAvailable ? '"yarn"' : '"npm install"'
+        } to install git hooks.`
+      );
+    }
 
     if (isInSubdir) {
       this.log(
