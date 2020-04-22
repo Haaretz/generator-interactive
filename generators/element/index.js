@@ -135,15 +135,6 @@ module.exports = class extends Generator {
     );
     this.fs.copy(this.templatePath('.*'), this.destinationPath());
 
-    if (this.options.debug) {
-      // check that all dotfiles were copied
-      fs.readdirSync(this.templatePath())
-        .filter(filename => filename.startsWith('.'))
-        .forEach(filename => {
-          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
-        });
-    }
-
     // copy templates:
     this.fs.copyTpl(
       this.templatePath('templates/**'),
@@ -177,6 +168,37 @@ module.exports = class extends Generator {
       this.destinationPath('README.md'),
       { description, remotePath, remotePathPre, elementName, }
     );
+
+    if (this.options.debug) {
+      this.log(this.chalk.red('\nCopying from "public/"'));
+      fs.readdirSync(this.templatePath('public'))
+        .forEach(filename => {
+          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
+        });
+      this.log();
+      this.log(this.chalk.red('\nCopying dotfiles'));
+      fs.readdirSync(this.templatePath())
+        .filter(filename => filename.startsWith('.'))
+        .forEach(filename => {
+          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
+        });
+      this.log();
+      this.log(this.chalk.red('\nCopying from "templates/"'));
+      fs.readdirSync(this.templatePath('templates/pages'))
+        .forEach(filename => {
+          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), `pages/${filename}`)));
+        });
+      fs.readdirSync(this.templatePath('templates/partials'))
+        .forEach(filename => {
+          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), `partials/${filename}`)));
+        });
+      this.log();
+      this.log(this.chalk.red('\nCopying from "scripts"'));
+      fs.readdirSync(this.templatePath('scipts'))
+        .forEach(filename => {
+          this.log(`${filename}:`, fs.existsSync(path.join(this.destinationPath(), filename)));
+        });
+    }
   }
 
   installPackages() {
