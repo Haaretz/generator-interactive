@@ -1,4 +1,5 @@
-import {terser} from 'rollup-plugin-terser';
+import path from 'path';
+import { terser, } from 'rollup-plugin-terser';
 import babel from 'rollup-plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
@@ -21,6 +22,10 @@ import createHtml from './scripts/createHtml';
 // it as an empty object object when the build starts.
 const manifest = {};
 
+// NOTE: this value must be defined outside of the plugin because it needs
+// A mapping of entry chunk names to their full dependency list.
+const modulepreloadMap = {};
+
 /**
  * A Rollup plugin to generate a manifest of chunk names to their filenames
  * (including their content hash). This manifest is then used by the template
@@ -31,7 +36,7 @@ function manifestPlugin() {
   return {
     name: 'manifest',
     generateBundle(options, bundle) {
-      for (const [name, assetInfo] of Object.entries(bundle)) {
+      for (const [ name, assetInfo, ] of Object.entries(bundle)) {
         // The postcss plugin does not assign `assetInfo.name` for some reason
         // so we need to hack around it
         if (!assetInfo.name) {
@@ -49,6 +54,7 @@ function manifestPlugin() {
     },
   };
 }
+
 function fillHtmlPlugin() {
   return {
     name: 'fillHtml',
@@ -68,14 +74,12 @@ function modulepreloadPlugin() {
   return {
     // name: 'modulepreload',
     name: 'preload',
-    generateBundle(options, bundle) {
-      // A mapping of entry chunk names to their full dependency list.
-      const modulepreloadMap = {};
 
+    generateBundle(options, bundle) {
       // Loop through all the chunks to detect entries.
-      for (const [fileName, chunkInfo] of Object.entries(bundle)) {
+      for (const [ fileName, chunkInfo, ] of Object.entries(bundle)) {
         if (chunkInfo.isEntry || chunkInfo.isDynamicEntry) {
-          modulepreloadMap[chunkInfo.name] = [fileName, ...chunkInfo.imports];
+          modulepreloadMap[chunkInfo.name] = [ fileName, ...chunkInfo.imports, ];
         }
       }
 
@@ -89,13 +93,30 @@ function modulepreloadPlugin() {
   };
 }
 
-function basePlugins({nomodule = false} = {}) {
-  const browsers = nomodule ? ['ie 11'] : pkg.browserslist;
+function plugins({ type, } = {}) {
+  const browsers = type === 'nomodule' ? [ 'ie 11', ] : pkg.browserslist;
 
-  const plugins = [
+  const pluginList = [
     nodeResolve(),
     commonjs(),
-    postcss({
+    babel({
+      exclude: [ 'node_modules/**', '!node_modules/ramda/es', ],
+      presets: [ [ '@babel/preset-env', {
+        targets: { browsers, },
+        // useBuiltIns: 'usage',
+        // corejs: 3,
+      }, ], ],
+      // plugins: [['@babel/plugin-transform-react-jsx']],
+    }),
+    replace({ 'process.env.NODE_ENV': JSON.stringify('production'), }),
+    manifestPlugin(),
+  ];
+  // Only add minification in production and when not running on Glitch.
+  if (isProd()) {
+    pluginList.push(terser({ module: type !== 'nomodule', }));
+  }
+  if (type === 'style') {
+    const postcssConfig = {
       plugins: [
         precss({
           // properties: { disable: true, },
@@ -104,43 +125,30 @@ function basePlugins({nomodule = false} = {}) {
         postcssLogical({ dir: 'rtl', }),
         autoprefixer,
       ],
-      extract: !nomodule,
+      extract: true,
       // extract: 'public/styles.[hash].css',
       minimize: true,
       sourceMap: true,
-    }),
-    babel({
-      exclude: [ 'node_modules/**', '!node_modules/ramda/es' ],
-      presets: [['@babel/preset-env', {
-        targets: { browsers, },
-        // useBuiltIns: 'usage',
-        // corejs: 3,
-      }]],
-      // plugins: [['@babel/plugin-transform-react-jsx']],
-    }),
-    replace({ 'process.env.NODE_ENV': JSON.stringify('production'), }),
-    manifestPlugin(),
-  ];
-  // Only add minification in production and when not running on Glitch.
-  if (isProd()) {
-    plugins.push(terser({module: !nomodule}));
+    };
+
+    pluginList.splice(2, 0, postcss(postcssConfig));
+    pluginList.push(fillHtmlPlugin());
   }
-  if (nomodule) {
-    plugins.push(fillHtmlPlugin());
-  }
-  else {
-    plugins.unshift(del({
-      targets: 'public/*.{css,html,js,json,map}',
+  // module build
+  if (type === 'module') {
+    pluginList.unshift(del({
+      cwd: 'public',
+      targets: '!static',
     }));
+    pluginList.push(modulepreloadPlugin());
   }
-  return plugins;
+
+  return pluginList;
 }
 
 // Module config for <script type="module">
 const moduleConfig = {
-  input: {
-    'module': 'src/module.js',
-  },
+  input: { module: 'src/module.js', },
   output: {
     dir: pkg.config.publicDir,
     format: 'esm',
@@ -149,28 +157,30 @@ const moduleConfig = {
     dynamicImportFunction: '__import__',
     sourcemap: true,
   },
-  plugins: [
-    ...basePlugins(),
-    modulepreloadPlugin(),
-  ],
-  // manualChunks(id) {
-  //   if (id.includes('node_modules')) {
-  //     // The directory name following the last `node_modules`.
-  //     // Usually this is the package, but it could also be the scope.
-  //     const directories = id.split(path.sep);
-  //     const name = directories[directories.lastIndexOf('node_modules') + 1];
-  //
-  //     // Group `tslib` and `dynamic-import-polyfill` into the default bundle.
-  //     // NOTE: This isn't strictly necessary for this app, but it's included
-  //     // to show how to manually keep deps in the default chunk.
-  //     if (name === 'dynamic-import-polyfill') {
-  //       return;
-  //     }
-  //
-  //     // Otherwise just return the name.
-  //     return name;
-  //   }
-  // },
+  plugins: plugins({ type: 'module', }),
+
+  manualChunks(id) {
+    if (id.includes('node_modules')) {
+      // The directory name following the last `node_modules`.
+      // Usually this is the package, but it could also be the scope.
+      const directories = id.split(path.sep);
+      const nameOrScopeIndex = directories.lastIndexOf('node_modules') + 1;
+      const nameOrScope = directories[nameOrScopeIndex];
+      const name = (nameOrScope && nameOrScope.startsWith('@'))
+        ? directories[nameOrScopeIndex + 1]
+        : nameOrScope;
+
+      // Group `dynamic-import-polyfill` into the default bundle.
+      if (name === 'dynamic-import-polyfill') {
+        return undefined;
+      }
+
+      // Otherwise just return the name.
+      return name;
+    }
+
+    return undefined;
+  },
   watch: {
     clearScreen: false,
   },
@@ -179,21 +189,35 @@ const moduleConfig = {
 // Legacy config for <script nomodule>
 const nomoduleConfig = {
   input: {
-    'nomodule': 'src/nomodule.js',
+    nomodule: 'src/nomodule.js',
   },
   output: {
     dir: pkg.config.publicDir,
     format: 'iife',
     entryFileNames: '[name]-[hash].js',
   },
-  plugins: basePlugins({nomodule: true}),
+  plugins: plugins({ type: 'nomodule', }),
   inlineDynamicImports: true,
   watch: {
     clearScreen: false,
   },
 };
 
-const configs = [ moduleConfig, nomoduleConfig, ];
+const stylesConfig = {
+  input: { styles: 'src/styles.js', },
+  output: {
+    dir: pkg.config.publicDir,
+    format: 'esm',
+    entryFileNames: '[name]-[hash].js',
+    chunkFileNames: '[name]-[hash].js',
+    dynamicImportFunction: '__import__',
+    sourcemap: true,
+  },
+  plugins: plugins({ type: 'style', }),
+};
+
+const configs = [ moduleConfig, nomoduleConfig, stylesConfig, ];
+
 // if (isProd()) {
 //   configs.push(nomoduleConfig);
 // }
