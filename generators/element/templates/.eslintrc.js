@@ -82,6 +82,19 @@ module.exports = {
   },
   overrides: [
     {
+      files: [ "scripts/*.js", ],
+      rules: {
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            devDependencies: true,
+            optionalDependencies: false,
+            peerDependencies: true
+          }
+        ]
+      }
+    },
+    {
       extends: ["plugin:jest/all"],
       files: ["*.test.js"],
       plugins: ["jest"],

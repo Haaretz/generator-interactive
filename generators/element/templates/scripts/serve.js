@@ -13,9 +13,14 @@ const params = {
   wait: WAIT,
   open: !!OPEN || !!HOST,
   root: path.join('public/'),
+
+  // For sourcemaps
+  mount: [ [ '/src', './src', ], ],
+
 };
 
 if (DEBUG) {
+  // eslint-disable-next-line global-require
   const chalk = require('chalk');
   console.log();
   console.log(chalk.red('Env:'));

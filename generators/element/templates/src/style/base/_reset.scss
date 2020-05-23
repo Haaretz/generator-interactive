@@ -1,4 +1,4 @@
-@if $isDev == true {
+@if $isDev == true and $isApp != true {
   /**************************************************
    *                                                *
    *  Base styles for development and app use only  *
@@ -20,7 +20,7 @@
 
   html {
     box-sizing: border-box;
-    color: #2D2D2D;
+    color: use-var(body-text);
     cursor: default;
     font-family: "Open Sans Hebrew", "Helvetica Neue", tahoma, Helvetica, Arial, sans-serif;
     min-height: 100%;
@@ -30,31 +30,26 @@
     -webkit-text-size-adjust: 100%;
   }
 
-  @media (max-width: 79.9375em) {
-    html {
+  html {
+    @include mq($until: xl) {
       font-size: 6px;
     }
-  }
-
-  @media (min-width: 80em) {
-    html {
+    @include mq($from: xl) {
       font-size: 7px;
     }
   }
 
-  @media (max-width: 79.9375em) {
-    body {
+  body {
+    @include mq($until: xl) {
       font-size: 2.6666666666666665rem;
       line-height: 1.5em;
     }
-  }
-
-  @media (min-width: 80em) {
-    body {
+    @include mq($from: xl) {
       font-size: 2.5714285714285716rem;
       line-height: 1.5555555555555556em;
     }
   }
+
 
   article,
   aside,
@@ -166,7 +161,7 @@
 
   mark {
     background-color: #FFE70C;
-    color: #2D2D2D;
+    color: use-var(body-text);
   }
 
   sub,
@@ -186,14 +181,14 @@
   }
 
   ::-moz-selection {
-    background-color: #FFE70C;
-    color: #2D2D2D;
+    color: use-var(highlight);
+    color: use-var(body-text);
     text-shadow: none;
   }
 
   ::selection {
-    background-color: #FFE70C;
-    color: #2D2D2D;
+    color: use-var(highlight);
+    color: use-var(body-text);
     text-shadow: none;
   }
 

@@ -1,0 +1,7 @@
+# Ignore the pkg_templates dir, as it isn't actually valid js
+/pkg_templates/
+**/dist/**/*
+**/coverage/**/*
+coverage/**/*
+/docs/*
+node_modules

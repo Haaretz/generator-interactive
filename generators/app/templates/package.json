@@ -4,25 +4,31 @@
   <% if (description) { %>
   "description": "<%= description %>",
   <% } %>
-  "license": "MIT",
-  "private": true,
-  "scripts": {
-    "build": "yarn clean && cross-env NODE_ENV=production rollup -c",
-    "build:pre": "yarn clean && cross-env IS_PRE=true NODE_ENV=production rollup -c",
-    "clean": "rm -rf ./public/*.{js,json,css,map,html}",
-    "deploy": "yarn build && ssh polopoly@172.21.1.80 'rm -rf /http-static<%= remotePath %> && mkdir -p $_' && scp -r ./public/* polopoly@172.21.1.80:/http-static<%= remotePath %>",
-    "deploy:pre": "yarn build:pre && ssh polopoly@172.21.1.80 'rm -rf /http-static<%= remotePathPre %> && mkdir -p $_' && scp -r ./public/* polopoly@172.21.1.80:/http-static<%= remotePathPre %>",
-    "dev": "npm-run-all --parallel serve watch",
-    "format": "eslint . --fix",
-    "gc": "git cz",
-    "serve": "cross-env-shell node scripts/serve.js",
-    "test:watch": "jest --watch",
-    "test": "yarn format && && jest",
-    "watch": "cross-env NODE_ENV=dev rollup -c -w"
-  },
   <% if (username) { %>
   "author": "<%= username %>",
   <% } %>
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build:next": "cross-env NODE_ENV=\"production\" next build",
+    "build:next:pre": "cross-env NODE_ENV=\"production\" NODE_CONFIG_ENV=\"pre\" next build",
+    "build:js": "yarn clean && cross-env NODE_ENV=\"production\" rollup -c",
+    "build": "yarn build:js && yarn build:next",
+    "build:pre": "yarn build:js && yarn build:next:pre",
+    "clean": "rm -rf ./public/*.{js,json,css,map,html}",
+    "dev": "concurrently \"yarn dev:js\" \"yarn dev:next\"",
+    "dev:next": "next",
+    "dev:js": "cross-env NODE_ENV=\"dev\" rollup -c -w",
+    "gc": "git cz",
+    "lint": "eslint ./",
+    "format": "eslint --fix ./",
+    "test": "jest ./",
+    "test:watch": "jest --watch ./",
+    "export": "rm -rf .next out & yarn build && next export",
+    "export:pre": "rm -rf .next out & yarn build:pre && next export",
+    "deploy": "node ./scripts/deploy.js pages --target <%= elementName %>",
+    "deploy:pre": "node ./scripts/deploy.js pages --profile pre --target <%= elementName %>"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Haaretz/<%= elementName %>.git"

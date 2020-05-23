@@ -4,14 +4,15 @@ import babel from 'rollup-plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
-import postcss from 'rollup-plugin-postcss';
 import del from 'rollup-plugin-delete';
+<% if (!inApp) { %>
+import postcss from 'rollup-plugin-postcss';
 import postcssLogical from 'postcss-logical';
 import autoprefixer from 'autoprefixer';
-import precss from 'precss';
-
-import pkg from './package.json';
+import jsToSass from 'json-sass/lib/jsToSassString';
 import createHtml from './scripts/createHtml';
+<% } %>
+import pkg from './package.json';
 
 
 // NOTE: this value must be defined outside of the plugin because it needs
@@ -54,7 +55,7 @@ function manifestPlugin() {
     },
   };
 }
-
+<% if(!inApp) { %>
 function fillHtmlPlugin() {
   return {
     name: 'fillHtml',
@@ -63,7 +64,7 @@ function fillHtmlPlugin() {
     },
   };
 }
-
+<% } %>
 /**
  * A Rollup plugin to generate a list of import dependencies for each entry
  * point in the module graph. This is then used by the template to generate
@@ -115,33 +116,45 @@ function plugins({ type, } = {}) {
   if (isProd()) {
     pluginList.push(terser({ module: type !== 'nomodule', }));
   }
+  <% if (!inApp) { %>
   if (type === 'style') {
+    const sassData = Object.entries({
+      isDev: !isProd(),
+      isApp: <%= inApp %>,
+      ...(<%= theme %>),
+    }).reduce((vars, entry) => `${vars}$${entry[0]}:${jsToSass(entry[1])};`, '');
+
     const postcssConfig = {
       plugins: [
-        precss({
-          // properties: { disable: true, },
-          variables: { isDev: !isProd(), },
-        }),
-        postcssLogical({ dir: 'rtl', }),
+        postcssLogical({ dir: <%= lang.toLowerCase() === 'english' ? 'ltr' : 'rtl' %>, }),
         autoprefixer,
       ],
       extract: true,
       // extract: 'public/styles.[hash].css',
       minimize: true,
       sourceMap: true,
+      use: { sass: {
+        // Share variables between Sass and js
+        data: sassData,
+        // Enable sourcemaps deep-linked to the original sass partials
+        // instead of just the main input file
+        sourceMap: true,
+        outFile: 'styles.css',
+      }, },
     };
 
     pluginList.splice(2, 0, postcss(postcssConfig));
     pluginList.push(fillHtmlPlugin());
   }
+  <% } %>
   // module build
   if (type === 'module') {
     pluginList.unshift(del({
-      cwd: 'public',
+      cwd: pkg.publicDir,
       targets: '!static',
     }));
-    pluginList.push(modulepreloadPlugin());
   }
+  if (type !== 'nomodule') pluginList.push(modulepreloadPlugin());
 
   return pluginList;
 }
@@ -203,6 +216,9 @@ const nomoduleConfig = {
   },
 };
 
+<% if (inApp) { %>
+const configs = [ moduleConfig, nomoduleConfig, ];
+<% } else { %>
 const stylesConfig = {
   input: { styles: 'src/styles.js', },
   output: {
@@ -215,12 +231,9 @@ const stylesConfig = {
   },
   plugins: plugins({ type: 'style', }),
 };
-
 const configs = [ moduleConfig, nomoduleConfig, stylesConfig, ];
+<% } %>
 
-// if (isProd()) {
-//   configs.push(nomoduleConfig);
-// }
 
 function isProd() {
   return process.env.NODE_ENV === 'production';

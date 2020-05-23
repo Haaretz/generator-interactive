@@ -6,6 +6,7 @@
   // color
   @include create-var(body-text, #2d2d2d);
   @include create-var(negative, #fff);
+  @include create-var(highlight, #FFE70C);
 
   // typography
   @include generate-typography-custom-props(false);
@@ -15,4 +16,5 @@
   // color
   @include create-var(body-text, #ebebeb);
   @include create-var(negative, #222);
+  @include create-var(highlight, rgba(255, 238, 84, 0.3));
 }

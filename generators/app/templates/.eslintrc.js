@@ -1,0 +1,135 @@
+module.exports = {
+  extends: ['airbnb'],
+  env: {
+    commonjs: true,
+    es6: true,
+    node: true
+  },
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly'
+  },
+  parser: 'babel-eslint',
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'module',
+  },
+  rules: {
+    'array-bracket-spacing': ['error', 'always'],
+    'arrow-parens': ['error', 'as-needed'],
+    'brace-style': [2, 'stroustrup'],
+    'comma-dangle': [
+      'error',
+      {
+        arrays: 'always',
+        objects: 'always',
+        imports: 'always',
+        exports: 'always',
+        functions: 'never'
+      }
+    ],
+    'comma-style': ['error', 'last'],
+    indent: [
+      'error',
+      2,
+      {
+        flatTernaryExpressions: false,
+        MemberExpression: 1,
+        SwitchCase: 1
+      }
+    ],
+    'linebreak-style': ['error', 'unix'],
+    'max-len': [
+      'warn',
+      {
+        code: 100,
+        comments: 110,
+        tabWidth: 2,
+        ignoreComments: false,
+        ignoreUrls: true,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
+        ignoreRegExpLiterals: true
+      }
+    ],
+    'multiline-ternary': ['error', 'always-multiline'],
+    'newline-per-chained-call': ['error', { ignoreChainWithDepth: 3 }],
+    'no-debugger': 'warn',
+    /* Allow nested ternaries */
+    'no-nested-ternary': 'off',
+    'no-restricted-syntax': ['error', 'SequenceExpression'],
+    /* Warn when declaring a variable with a name that already exists in the containing scope */
+    'no-shadow': 'warn',
+    /* Forbid referencing a variable before it is defined, but allow using declared functions */
+    'no-use-before-define': ['error', 'nofunc'],
+    /* Warn when referencing an undefined variable */
+    'no-undef': 'error',
+    /* Forbid expressions that are never used */
+    'no-unused-expressions': [
+      'error',
+      { allowShortCircuit: true, allowTernary: true }
+    ],
+    /* Throw when declaring a variable without using it */
+    'no-unused-vars': [
+      'error',
+      { vars: 'local', args: 'none', ignoreRestSiblings: true }
+    ],
+    'object-curly-newline': 'off',
+    'object-curly-spacing': ['error', 'always'],
+    'operator-linebreak': ['error', 'before'],
+    'prefer-destructuring': 'off',
+    quotes: ['error', 'single'],
+    semi: ['error', 'always'],
+    'spaced-comment': [ 'error', 'always', { exceptions: ['/', '-', '+', '*'] } ],
+
+    'react/prop-types': 'off',
+    'react/jsx-filename-extension': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/no-unescaped-entities': 'off',
+    'react/static-property-placement': [ 'error', 'static public field', ],
+  },
+  overrides: [
+    {
+      files: [ 'js/src/**/*.js', ],
+      env: {
+        browser: true,
+        node: false,
+      },
+    },
+    {
+      files: [
+        'scripts/*.js',
+        '{pages,components,consts,utils,theme}/**/*.js',
+      ],
+      rules: {
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            devDependencies: true,
+            optionalDependencies: false,
+            peerDependencies: true
+          }
+        ]
+      }
+    },
+    {
+      extends: ['plugin:jest/all'],
+      files: ['*.test.js'],
+      plugins: ['jest'],
+      env: {
+        'jest/globals': true,
+        jest: true
+      },
+      rules: {
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            devDependencies: true,
+            optionalDependencies: false,
+            peerDependencies: true
+          }
+        ]
+      }
+    }
+  ]
+};
