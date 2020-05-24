@@ -68,11 +68,11 @@ export default class CustomDocument extends Document {
           <script crossOrigin="anonymous" src={POLYFILL_SRC} />
           <script
             type="module"
-            src={`${config.get('pathPrefix')}${fileManifest.index}`}
+            src={`${config.get('pathPrefix')}${fileManifest.module}`}
           />
           <script
             noModule
-            src={`${config.get('pathPrefix')}${fileManifest.indexNomodule}`}
+            src={`${config.get('pathPrefix')}${fileManifest.nomodule}`}
           />
           <NextScript />
         </body>
