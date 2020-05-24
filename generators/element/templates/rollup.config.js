@@ -1,6 +1,6 @@
 import path from 'path';
 import { terser, } from 'rollup-plugin-terser';
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
@@ -101,6 +101,7 @@ function plugins({ type, } = {}) {
     nodeResolve(),
     commonjs(),
     babel({
+      babelHelpers: 'bundled',
       exclude: [ 'node_modules/**', '!node_modules/ramda/es', ],
       presets: [ [ '@babel/preset-env', {
         targets: { browsers, },

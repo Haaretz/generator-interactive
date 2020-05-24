@@ -187,6 +187,12 @@ module.exports = class extends Generator {
       ],
       { [this.isYarnAvailable ? 'dev' : 'save-dev']: true, }
     );
+
+    // Install project dependencies
+    install([
+      '@haaretz/vanilla-user-utils',
+      'lazysizes',
+    ]);
   }
 
   install() {

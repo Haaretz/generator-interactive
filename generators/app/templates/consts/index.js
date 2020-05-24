@@ -27,10 +27,10 @@ export const LANG = '<%= langCode %>';
 
 export const PAGES_URL_PARTS = (pages => {
   if (!pages.length) {
-    throw new Errow('no urls are defined in the "PAGES" array. See "consts/index.js"');
+    throw new Error('no urls are defined in the "PAGES" array. See "consts/index.js"');
   }
 
-  pages.map(url => {
+  return pages.map(url => {
     const { baseUrl, fullMatch, path = '', domain, } = splitUrl(url);
     const id = (path.match(/^.*\/.*?(\d\.\d+)/) || [])[1];
     const papiurl = `${baseUrl}/papi${path}`;
