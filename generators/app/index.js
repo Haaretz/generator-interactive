@@ -85,7 +85,7 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'site',
         message: 'What site is this project for?',
-        choices: [ 'Haaretz.co.il', 'TheMarker.com', 'Haaretz.com', ],
+        choices: [ 'haaretz.co.il', 'themarker.com', 'haaretz.com', ],
         default: 0,
         required: true,
       },
