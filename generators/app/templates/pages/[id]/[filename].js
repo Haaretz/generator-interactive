@@ -12,6 +12,7 @@ import GAInit from '../../components/GAInit';
 import Jsonld from '../../components/JsonLd';
 import LayoutContainer from '../../components/LayoutContainer';
 import Masthead from '../../components/Masthead';
+import RecommendedArticles from '../../components/RecommendedArticles';
 import Seo from '../../components/Seo';
 
 import getStaticPaths from '../../utils/getStaticPaths';
@@ -67,6 +68,7 @@ export default function Page({ data, isClosed, site, } = {}) {
               margin: '6rem auto 0',
             }}
           />
+          <RecommendedArticles />
         </article>
         <Jsonld />
         <script

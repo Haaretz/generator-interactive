@@ -254,7 +254,7 @@ export function Picture({
           isLazyload={isLazyload}
           key={
             data.contentId
-            + data.imgArray[sourceOpts.positionInImgArray].imgName
+            + data.imgArray[sourceOpts.positionInImgArray || 0].imgName
           }
         />
       ))}

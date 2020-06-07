@@ -50,6 +50,10 @@ async function parseData(url, filename, domain, id) {
     const body = articleDataFromJson.body.map(processArticleBody);
     articleDataFromJson.body = body;
 
+    const recommendedArticles = slots.postMain?.find(({ inputTemplate, view, }) => (
+      inputTemplate === 'com.tm.element.List' && view === 'Bender'
+    )) || null;
+
     const isClosed = filename.includes('closed');
     const site = domain.toLowerCase();
     const sections = lineage.slice(1, -1);
@@ -66,6 +70,7 @@ async function parseData(url, filename, domain, id) {
       jsonld,
       lineage,
       primarySection,
+      recommendedArticles,
       secondarySection,
       section: sectionName,
       seoData,

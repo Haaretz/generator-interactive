@@ -355,6 +355,21 @@ const colorAliases = {
       default: [ 'tertiary', '1', ],
     },
   },
+
+  listHeader: {
+    default: [ 'brand', 'base', ],
+  },
+  listBg: {
+    default: [ 'neutral', '-10', ],
+  },
+  listContent: {
+    '-1': {
+      default: [ 'neutral', '-3', ],
+    },
+    base: {
+      default: [ 'neutral', '-1', ],
+    },
+  },
 };
 
 const palette = createColorPalette(baseColors, colorAliases);
