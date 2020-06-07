@@ -6,7 +6,7 @@ export default function iconStyle({ color, fill, size, miscStyle, theme, }) {
     // A decent default for aligning icons away from the
     // baseline of the surrounding them. Can and should be tweaked
     // per use-case through the `miscStyle` prop on the component.
-    // verticalAlign: '-0.15em',
+    verticalAlign: '-0.15em',
     extend: [
       // Set the `color` attribute, which applies to elements with
       // a `fill="currentColor"` attribute
