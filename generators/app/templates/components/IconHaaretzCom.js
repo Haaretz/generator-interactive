@@ -3,8 +3,8 @@ import React from 'react';
 
 import iconStyle from '../utils/iconStyle';
 
-export default function IconHaaretzCom({ size, fill, color, attrs, miscStyles, ...props }) {
-  const className = useFela({ size, fill, color, miscStyles, }).css(iconStyle);
+export default function IconHaaretzCom({ size, fill, color, attrs, extraStyles, ...props }) {
+  const className = useFela({ size, fill, color, extraStyles, }).css(iconStyle);
 
   return (
     <svg

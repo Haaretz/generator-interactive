@@ -8,11 +8,11 @@ export default function IconHaaretzComFull({
   fill,
   color,
   attrs,
-  miscStyles,
+  extraStyles,
   secondaryColor,
   ...props
 }) {
-  const className = useFela({ size, fill, color, miscStyles, }).css(iconStyle);
+  const className = useFela({ size, fill, color, extraStyles, }).css(iconStyle);
 
   return (
     <svg

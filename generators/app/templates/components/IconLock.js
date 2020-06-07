@@ -2,8 +2,8 @@ import React from 'react';
 import { useFela, } from 'react-fela';
 import iconStyle from '../utils/iconStyle';
 
-export default function IconTwitter({ size, fill, color, attrs, miscStyle, ...props }) {
-  const className = useFela({ size, fill, color, }).css(iconStyle, miscStyle);
+export default function IconTwitter({ size, fill, color, attrs, extraStyles, ...props }) {
+  const className = useFela({ size, fill, color, }).css(iconStyle, extraStyles);
 
   return (
     <svg

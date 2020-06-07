@@ -7,11 +7,11 @@ export default function IconHtzLoader({
   size,
   fill,
   color,
-  miscStyles,
+  extraStyles,
   idSuffix = 'default',
   ...props
 }) {
-  const { css, } = useFela({ color, fill, size, miscStyles, });
+  const { css, } = useFela({ color, fill, size, extraStyles, });
   const className = css(iconStyle);
   const gradientId = `htz-loader-gradient-${idSuffix}`;
 

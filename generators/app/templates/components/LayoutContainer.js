@@ -6,7 +6,7 @@ export const styles = ({ bgc, namedBgc, theme, }) => ({
   marginRight: 'auto',
   marginLeft: 'auto',
   width: '100%',
-  padding: '0 2.6rem',
+  padding: '0 2rem',
   extend: [
     parseComponentProp(
       'maxWidth',
@@ -26,14 +26,14 @@ export default function LayoutContainer({
   bgc,
   namedBgc,
   children,
-  miscStyles,
+  extraStyles,
   tagName = 'section',
 }) {
-  const className = useFela({ bgc, namedBgc, }).css(styles, miscStyles || {});
-  const Tag = tagName;
+  const className = useFela({ bgc, namedBgc, }).css(styles, extraStyles);
+  const Element = tagName;
   return (
-    <Tag {...attrs} className={className}>
+    <Element className={className} {...attrs}>
       {children}
-    </Tag>
+    </Element>
   );
 }

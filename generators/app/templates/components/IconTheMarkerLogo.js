@@ -2,8 +2,8 @@ import React from 'react';
 import { useFela, } from 'react-fela';
 import iconStyle from '../utils/iconStyle';
 
-export default function IconMarkerLogo({ size, fill, color, attrs, miscStyles, ...props }) {
-  const className = useFela({ size, fill, color, miscStyles, }).css(iconStyle);
+export default function IconMarkerLogo({ size, fill, color, attrs, extraStyles, ...props }) {
+  const className = useFela({ size, fill, color, extraStyles, }).css(iconStyle);
 
   return (
     <svg width="4.7407407407407405em" height="1em" viewBox="0 0 256 54" className={className} {...props} {...attrs}>

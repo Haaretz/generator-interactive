@@ -7,10 +7,10 @@ export default function IconFacebookLogo({
   fill,
   color,
   attrs,
-  miscStyles,
+  extraStyles,
   ...props
 }) {
-  const className = useFela({ size, fill, color, miscStyles, }).css(iconStyle);
+  const className = useFela({ size, fill, color, extraStyles, }).css(iconStyle);
 
   return (
     <svg

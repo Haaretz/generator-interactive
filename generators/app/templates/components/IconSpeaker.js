@@ -4,7 +4,7 @@ import * as React from 'react';
 import iconStyle from '../utils/iconStyle';
 
 
-export default function IconSpeaker({ size, fill, color, attrs, miscStyle, }) {
+export default function IconSpeaker({ size, fill, color, attrs, extraStyles, }) {
   const className = useFela({ size, fill, color, }).css(
     iconStyle,
     {
@@ -20,7 +20,7 @@ export default function IconSpeaker({ size, fill, color, attrs, miscStyle, }) {
         transform: 'rotate(-45deg) translate(-0.5em, 0.2em) scale(1.1,1)',
       },
     },
-    miscStyle
+    extraStyles
   );
 
   return (

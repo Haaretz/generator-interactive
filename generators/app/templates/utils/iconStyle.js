@@ -1,11 +1,11 @@
 import { parseComponentProp, } from '@haaretz/htz-css-tools';
 import setColor from './setColor';
 
-export default function iconStyle({ color, fill, size, miscStyle, theme, }) {
+export default function iconStyle({ color, fill, size, extraStyles, theme, }) {
   return {
     // A decent default for aligning icons away from the
     // baseline of the surrounding them. Can and should be tweaked
-    // per use-case through the `miscStyle` prop on the component.
+    // per use-case through the `extraStyles` prop on the component.
     verticalAlign: '-0.15em',
     extend: [
       // Set the `color` attribute, which applies to elements with
