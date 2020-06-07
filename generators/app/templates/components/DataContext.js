@@ -10,7 +10,7 @@ export function useData(...path) {
   const data = React.useContext(DataContext);
   if (path.length) {
     const dataAtPath = path.reduce((result, key) => result[key], data);
-    if (!dataAtPath) {
+    if (dataAtPath == null) {
       /* eslint-disable no-console */
       console.error(`[${path.join('][')}] doesn't exist in page data`);
       console.trace();
