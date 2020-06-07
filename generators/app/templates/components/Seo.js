@@ -17,23 +17,19 @@ export default function Seo() {
     ogImage,
   } = seoData;
 
-  const ogImageData = ogImage.imgArray[0];
+  const ogImageData = ogImage && ogImage.imgArray[0];
   const ogImageOptions = {
     aspect: 'landscape',
     height: 630,
     width: 1200,
   };
 
-  const ogImageUrl = buildImgUrl(
-    ogImage.contentId,
-    ogImageData,
-    ogImageOptions
-  );
+  const ogImageUrl
+    = ogImage && buildImgUrl(ogImage.contentId, ogImageData, ogImageOptions);
 
   return (
     <Head>
-      {/* SEO Start */}
-      <title key="title">{metaTitle + getTitleSuffix(site)}</title>
+      <title>{metaTitle + getTitleSuffix(site)}</title>
       <meta name="referrer" content="always" key="referrer" />
       <meta name="robots" content="noarchive" key="robots" />
 
@@ -48,7 +44,9 @@ export default function Seo() {
       />
       <meta property="og:type" content="article" key="of:type" />
       <meta property="og:url" content={canonicalUrl} key="og:url" />
-      <meta property="og:image" content={ogImageUrl} key="og:image" />
+      {ogImageUrl ? (
+        <meta property="og:image" content={ogImageUrl} key="og:image" />
+      ) : null}
       <meta property="og:image:width" content="1200" key="og:image:width" />
       <meta property="og:image:height" content="630" key="og:image:height" />
       <meta
@@ -71,7 +69,6 @@ export default function Seo() {
       />
       <meta name="twitter:image" content={ogImageUrl} key="twitter:image" />
       <link rel="canonical" href={canonicalUrl} />
-      {/* SEO End */}
     </Head>
   );
 }
