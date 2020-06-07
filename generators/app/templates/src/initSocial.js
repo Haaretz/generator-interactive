@@ -2,8 +2,10 @@ export default function initSocial() {
   const fbBtns = document.getElementsByClassName('jsFbShare');
   const twitterBtns = document.getElementsByClassName('jsTwitterShare');
 
-  const url = document.querySelector('link[rel="canonical"]').getAttribute('href');
-  const title = document.querySelector('meta[property="og:title"]').getAttribute('content');
+  const url = document.querySelector('link[rel="canonical"]')
+    ?.getAttribute('href');
+  const title = document.querySelector('meta[property="og:title"]')
+    ?.getAttribute('content');
 
   [ ...fbBtns, ].forEach(btn => {
     btn.addEventListener('click', () => {
