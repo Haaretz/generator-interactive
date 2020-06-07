@@ -40,6 +40,7 @@ export default function ArticleBody({ isClosed, }) {
       ':focus': focusActiveStyles,
       ':active': focusActiveStyles,
       ':visited': { color: theme.color('bodyText'), },
+      ':hover:visited': { color: theme.color('link', 'base'), },
       extend: [ theme.getTransition(0, 'swiftOut'), ],
     },
 
