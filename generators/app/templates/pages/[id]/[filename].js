@@ -61,6 +61,13 @@ export default function Page({ data, isClosed, site, } = {}) {
           <ArticleBody isClosed={isClosed} />
         </LayoutContainer>
         <Jsonld />
+        <script
+          type="text/javascript"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var logUrl='/logger/p.gif?a=${articleId}';var referrer=document.referrer;if(referrer&&referrer.length>0){logUrl+='&referrer='+referrer;}var img=document.createElement('img');img.src=logUrl;document.body.appendChild(img);})()`,
+          }}
+        />
       </DataProvider>
     );
   }
