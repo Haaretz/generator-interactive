@@ -103,7 +103,7 @@
  * //   --neutral: #ebebeb;
  * // }
  */
-export const themeNames = [ 'default', 'darkMode', ];
+export const themeNames = [ 'default', /* 'darkMode', */ ];
 
 /**
  * A dictionary of named colors and their values. All color _values_ used in the
@@ -133,7 +133,7 @@ export const themeNames = [ 'default', 'darkMode', ];
  *       default: '#2d2d2d',
  *       darkMode: '#ccc',
  *     },
- *     '+1': {
+ *     '1': {
  *       default: '#222',
  *       darkMode: '#ebebeb',
  *     },
@@ -182,13 +182,39 @@ const baseColors = {
       default: '#222',
       darkMode: '#EBEBEB',
     },
-    '+1': {
+    '1': {
       default: '#161616',
       darkMode: '#F5F5F5',
     },
-    '+2': {
+    '2': {
       default: '#000',
       darkMode: '#FFF',
+    },
+  },
+  brand: {
+    '-6': {
+      default: '<%= site === "themarker.com" ? "#F0FAF0" : "#EBF2F5" %>',
+    },
+    '-5': {
+      default: '<%= site === "themarker.com" ? "#F0FDE6" : "#E6EDF0" %>',
+    },
+    '-4': {
+      default: '<%= site === "themarker.com" ? "#D0F5D0" : "#DAE9F2" %>',
+    },
+    '-3': {
+      default: '<%= site === "themarker.com" ? "#A2EBA2" : "#ACD2ED" %>',
+    },
+    '-2': {
+      default: '<%= site === "themarker.com" ? "#5CDC5C" : "#169FD1" %>',
+    },
+    '-1': {
+      default: '<%= site === "themarker.com" ? "#45D745" : "#289DD3" %>',
+    },
+    base: {
+      default: '<%= site === "themarker.com" ? "#00C800" : "#0B7EB5" %>',
+    },
+    '1': {
+      default: '<%= site === "themarker.com" ? "#00A400" : "#006B96" %>',
     },
   },
   // primary: {},
@@ -210,6 +236,24 @@ const baseColors = {
     darkMode: '#dcf8c6',
   },
 
+  sales: {
+    '-2': {
+      default: '#FFF7E5',
+    },
+    '-1': {
+      default: '#FFBD45',
+    },
+    base: {
+      default: '#FFA500',
+    },
+    '+1': {
+      default: '#FA9600',
+    },
+    '+2': {
+      default: '#ED8600',
+    },
+  },
+
   // TODO: move to colorAliases
   // Used for text selection highlight
   // This is a required color, but might be better defined
@@ -218,12 +262,6 @@ const baseColors = {
   highlight: {
     default: '#FFE70C',
     darkMode: 'rgba(153,138,0,.6)',
-  },
-  link: {
-    base: {
-      default: '#FFE70C',
-      darkMode: 'rgba(153,138,0,.6)',
-    },
   },
 };
 
@@ -239,22 +277,27 @@ const baseColors = {
  *   // A color alias without variants
  *   hightlight: {
  *     default: [ 'tertiary' ],
- *     darkMode: [ 'secondary', '+1', ],
+ *     darkMode: [ 'secondary', '1', ],
  *   },
  *   // A color alias with variants
  *   primaryButton: {
  *     backgroundColor: {
- *       default: [ 'primary', '+1', ],
+ *       default: [ 'primary', '1', ],
  *       darkMode: [ 'primary', '-1', ],
  *     },
  *     border: {
- *       default: [ 'primary', '+2', ],
+ *       default: [ 'primary', '2', ],
  *       darkMode: [ 'primary', '-4', ],
  *     },
  *   },
  * };
  */
 const colorAliases = {
+  link: {
+    base: {
+      default: [ 'primary', ],
+    },
+  },
   bodyText: {
     default: [ 'neutral', '-1', ],
     darkMode: [ 'neutral', ],
@@ -262,6 +305,9 @@ const colorAliases = {
   bodyTextHighlight: {
     default: [ 'highlight', ],
     darkMode: [ 'highlight', ],
+  },
+  pageBg: {
+    default: [ 'neutral', '-10', ],
   },
 };
 
@@ -313,7 +359,9 @@ function validatePalette(
     );
 
     if (isThemes) {
-      if (!hasValuesForEachTheme && (isValidAlias || !validateAliases)) return false;
+      if (!hasValuesForEachTheme && (isValidAlias || !validateAliases)) {
+        return false;
+      }
       return true;
     }
 
@@ -353,12 +401,14 @@ function isValidThemes(
 export function validateThemes(themes) {
   const defaultTheme = themeNames[0];
   const isThemes = themes.includes(defaultTheme);
+  /* eslint-disable operator-linebreak */
   const hasValuesForEachTheme = isThemes
     ? // Ensure values are defined for each theme
-    themeNames.length === themes.length
+      theme.length &&
       // make sure defined themes match the list of themes
-      && themes.filter(theme => !themeNames.includes(theme)).length === 0
-    : false;
+      themeNames.filter(themeName => !themes.includes(themeName)).length === 0
+      : false;
+  /* eslint-enable operator-linebreak */
 
   return [ isThemes, hasValuesForEachTheme, ];
 }

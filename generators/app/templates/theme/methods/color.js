@@ -1,4 +1,4 @@
-import palette, { themeNames, validateThemes, } from '../consts/palette';
+import palette, { validateThemes, themeNames, } from '../consts/palette';
 
 ////////////////////////////////////////////////////////////////////////
 //                               CONFIG                               //
@@ -39,9 +39,9 @@ const activatedColors = [];
 //                             FUNCTIONS                              //
 ////////////////////////////////////////////////////////////////////////
 
-export function colorFunctionsFactory(colorPalette) {
+export function colorFunctionsFactory(colorPalette, listOfThemes) {
   function generateColorCustomProps() {
-    const colorCustomPropsByTheme = themeNames.reduce((result, themeName) => {
+    const colorCustomPropsByTheme = listOfThemes.reduce((result, themeName) => {
       // eslint-disable-next-line no-param-reassign
       result[themeName] = [];
       return result;
@@ -55,26 +55,54 @@ export function colorFunctionsFactory(colorPalette) {
         propRegex
       );
 
-      const isThemes = validateThemes(Object.keys(colorPalette[color]))[1];
+      const isThemes = validateThemes(
+        Object.keys(colorPalette[color]),
+        listOfThemes
+      )[1];
       const themesFromPalette = isThemes
         ? colorPalette[color]
         : colorPalette[color][variant];
 
       Object.entries(themesFromPalette).forEach(([ theme, colorOrAlias, ]) => {
-        const isAlias = Array.isArray(colorOrAlias);
-        const cssString = `${CUSTOM_PROP_PREFIX}${customPropName}:${
-          isAlias
-            ? `var(${CUSTOM_PROP_PREFIX}${getCustomPropName(...colorOrAlias)})`
-            : colorOrAlias
-        };`;
-        colorCustomPropsByTheme[theme].push(cssString);
+        if (listOfThemes.includes(theme)) {
+          const isAlias = Array.isArray(colorOrAlias);
+
+          if (isAlias) {
+            // Make sure the color the alias is pointing to is activated
+            const [ aliasColor, aliasVariant, ] = colorOrAlias;
+            const aliasCustomProp = getCustomPropName(aliasColor, aliasVariant);
+            if (!activatedColors.includes(aliasCustomProp)) {
+              const aliasThemesFromPalette = aliasVariant
+                ? colorPalette[aliasColor][aliasVariant]
+                : colorPalette[color];
+
+              Object.entries(aliasThemesFromPalette).forEach(
+                ([ aliasedTheme, aliasedColor, ]) => {
+                  if (listOfThemes.includes(aliasedTheme)) {
+                    const cssString = `${CUSTOM_PROP_PREFIX}${aliasCustomProp}:${aliasedColor};`;
+                    colorCustomPropsByTheme[aliasedTheme].push(cssString);
+                  }
+                }
+              );
+            }
+          }
+          const cssString = `${CUSTOM_PROP_PREFIX}${customPropName}:${
+            isAlias
+              ? `var(${CUSTOM_PROP_PREFIX}${getCustomPropName(
+                ...colorOrAlias
+              )})`
+              : colorOrAlias
+          };`;
+          colorCustomPropsByTheme[theme].push(cssString);
+        }
       });
     });
 
     return Object.entries(colorCustomPropsByTheme).reduce(
       (cssString, [ themeName, customProps, ]) => {
+        const defaultThemeName = listOfThemes[0];
         const selector
-          = themeNames[0] === themeName ? ':root' : `.${themeName}`;
+          = defaultThemeName === themeName ? ':root' : `.${themeName}`;
 
         return `${cssString}${selector}{${customProps.join('')}}`;
       },
@@ -83,9 +111,10 @@ export function colorFunctionsFactory(colorPalette) {
   }
 
   function getColor(color, variant) {
-    isColorDefined(colorPalette, color, variant);
+    const variantSansPlus = stripLeadingPlus(variant);
+    isColorDefined(colorPalette, color, variantSansPlus);
 
-    const customPropName = getCustomPropName(color, variant);
+    const customPropName = getCustomPropName(color, variantSansPlus);
 
     if (!activatedColors.includes(customPropName)) activatedColors.push(customPropName);
     return `var(${CUSTOM_PROP_PREFIX}${customPropName})`;
@@ -94,7 +123,10 @@ export function colorFunctionsFactory(colorPalette) {
   return { generateColorCustomProps, getColor, };
 }
 
-const { generateColorCustomProps, getColor, } = colorFunctionsFactory(palette);
+const { generateColorCustomProps, getColor, } = colorFunctionsFactory(
+  palette,
+  themeNames
+);
 
 export { generateColorCustomProps, };
 export default getColor;
@@ -102,6 +134,11 @@ export default getColor;
 ////////////////////////////////////////////////////////////////////////
 //                               UTILS                                //
 ////////////////////////////////////////////////////////////////////////
+
+function stripLeadingPlus(string) {
+  if (!string) return string;
+  return string.startsWith('+') ? string.slice(1) : string;
+}
 
 function isColorDefined(colorPalette, color, variant) {
   try {

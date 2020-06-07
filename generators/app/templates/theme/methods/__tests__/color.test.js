@@ -14,7 +14,7 @@ const testPalette = {
       default: '#222',
       darkMode: '#EBEBEB',
     },
-    '+1': {
+    1: {
       default: '#161616',
       darkMode: '#F5F5F5',
     },
@@ -34,15 +34,16 @@ const testPalette = {
       darkMode: [ 'neutral', '-1', ],
     },
     border: {
-      default: [ 'neutral', '+1', ],
+      default: [ 'neutral', '1', ],
       darkMode: [ 'neutral', ],
     },
   },
 };
 
-const { getColor, generateColorCustomProps, } = colorFunctionsFactory(
-  testPalette
-);
+const {
+  getColor,
+  generateColorCustomProps,
+} = colorFunctionsFactory(testPalette, [ 'default', 'darkMode', ]);
 
 describe('color functions', () => {
   // eslint-disable-next-line jest/no-hooks
@@ -105,10 +106,10 @@ describe('color functions', () => {
         const result = formatCss(generateColorCustomProps());
         expect(result).toMatchInlineSnapshot(`
                   ":root{
-                    --color-neutral-+1:#161616;
+                    --color-neutral-1:#161616;
                   }
                   .darkMode{
-                    --color-neutral-+1:#F5F5F5;
+                    --color-neutral-1:#F5F5F5;
                   }
                   "
               `);
@@ -142,9 +143,13 @@ describe('color functions', () => {
         const result = formatCss(generateColorCustomProps());
         expect(result).toMatchInlineSnapshot(`
           ":root{
+            --color-transparent:transparent;
             --color-highlight:var(--color-transparent);
+            --color-transparent:transparent;
           }
           .darkMode{
+            --color-transparent:transparent;
+            --color-transparent:transparent;
             --color-highlight:var(--color-transparent);
           }
           "
@@ -163,9 +168,13 @@ describe('color functions', () => {
         const result = formatCss(generateColorCustomProps());
         expect(result).toMatchInlineSnapshot(`
           ":root{
+            --color-neutral:neutral;
             --color-test:var(--color-neutral);
+            --color-neutral--1:#2D2D2D;
           }
           .darkMode{
+            --color-neutral:neutral,-1;
+            --color-neutral--1:#CCC;
             --color-test:var(--color-neutral--1);
           }
           "
@@ -185,8 +194,10 @@ describe('color functions', () => {
         expect(result).toMatchInlineSnapshot(`
           ":root{
             --color-primaryButton-backgroundColor:var(--color-transparent);
+            --color-neutral--1:#2D2D2D;
           }
           .darkMode{
+            --color-neutral--1:#CCC;
             --color-primaryButton-backgroundColor:var(--color-neutral--1);
           }
           "
@@ -205,9 +216,11 @@ describe('color functions', () => {
         const result = formatCss(generateColorCustomProps());
         expect(result).toMatchInlineSnapshot(`
           ":root{
-            --color-primaryButton-border:var(--color-neutral-+1);
+            --color-neutral-1:#161616;
+            --color-primaryButton-border:var(--color-neutral-1);
           }
           .darkMode{
+            --color-neutral-1:#F5F5F5;
             --color-primaryButton-border:var(--color-neutral);
           }
           "
@@ -236,7 +249,8 @@ describe('color functions', () => {
         --color-neutral:#222;
         --color-neutral--1:#2D2D2D;
         --color-primaryButton-backgroundColor:var(--color-transparent);
-        --color-primaryButton-border:var(--color-neutral-+1);
+        --color-neutral-1:#161616;
+        --color-primaryButton-border:var(--color-neutral-1);
         --color-test:var(--color-neutral);
         --color-transparent:rgba(0,0,0,0);
       }
@@ -245,6 +259,7 @@ describe('color functions', () => {
         --color-neutral:#EBEBEB;
         --color-neutral--1:#CCC;
         --color-primaryButton-backgroundColor:var(--color-neutral--1);
+        --color-neutral-1:#F5F5F5;
         --color-primaryButton-border:var(--color-neutral);
         --color-test:var(--color-neutral--1);
         --color-transparent:hsla(0,0,0,0);

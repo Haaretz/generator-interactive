@@ -17,15 +17,6 @@ const styles
   + 'background-repeat:no-repeat;' // 1
   + 'box-sizing:inherit;' // 2
   + '}'
-  // + ':root{'
-  // + `--textColor: ${getColor('neutral', '+1')};`
-  // + `--bgColor: ${getColor('bg')};`
-  // + '--colorChangeDuration: 0;'
-  // + '--headlineMargin: 126px;'
-  // + '--highlightScale: 8;'
-  // + '--dotTextOpacity: 1;'
-  // + `--shareBarBgc: ${getColor('neutral', '-6')};`
-  // + '}'
   /**
    * 1. Make text-decoration inherited
    * 2. Make vertical-align inherited
@@ -50,12 +41,12 @@ const styles
    */
   + 'html{'
   + 'box-sizing:border-box;' // 1
-  + 'background-color:var(--bgColor);'
-  // + `background-color:${getColor('white')};`
+  + `background-color:${getColor('pageBg')};`
   + `color:${getColor('bodyText')};` // 2
   + 'cursor:default;' // 3
   + `font-family:${fontStacks.base};` // 5
   + 'min-height:100%;' // 5
+  + 'transition: all 0.5s ease-out;'
   + 'overflow-anchor:auto;' // 6
   + 'overflow-x:hidden;' // 7
   + '-ms-text-size-adjust:100%;' // 8
