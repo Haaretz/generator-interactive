@@ -31,12 +31,12 @@ export default class CustomDocument extends Document {
     // Add webfonts to styleRenderer
     fontStacks.webfonts.forEach(fontFamilyRule => styleRenderer.renderFont(...fontFamilyRule));
 
+    // Add css reset to styleRenderer
+    styleRenderer.renderStatic(cssReset);
+
     // Render typographic custom props
     styleRenderer.renderStatic(generateTypographicCustomProps());
     styleRenderer.renderStatic(generateColorCustomProps());
-
-    // Add css reset to styleRenderer
-    styleRenderer.renderStatic(cssReset);
 
     const styles = renderToNodeList(styleRenderer);
 
@@ -54,12 +54,9 @@ export default class CustomDocument extends Document {
         {...generateDataAttributes()}
       >
         <Head>
+          <meta charSet="utf-8" />
           <link rel="preconnect" href="https://images.haarets.co.il/" />
           <link rel=" dns-prefetch" href="https://images.haarets.co.il/" />
-          <link rel="preconnect" href="https://google-analytics.com" />
-          <link rel=" dns-prefetch" href="https://google-analytics.com" />
-          <link rel="preconnect" href="https://s3.amazonaws.com" />
-          <link rel=" dns-prefetch" href="https://s3.amazonaws.com" />
           <PreloadJS />
         </Head>
         <body>
