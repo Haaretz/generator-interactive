@@ -42,10 +42,8 @@ export function sendBiEvent({
     );
   }
 
-  const sendBeacon = window.navigator.sendBeacon;
-
-  if (typeof sendBeacon === 'function') {
-    sendBeacon(`${DS_BASE_URL}/${eventType}`, data);
+  if (typeof navigator.sendBeacon === 'function') {
+    navigator.sendBeacon(`${DS_BASE_URL}/${eventType}`, data);
   }
   else {
     withTimeout(
