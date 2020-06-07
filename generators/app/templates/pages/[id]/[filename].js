@@ -8,9 +8,9 @@ import ChartBeatInit from '../../components/ChartbeatInit';
 import Comments from '../../components/Comments';
 import FacebookInit from '../../components/FacebookInit';
 import Favicons from '../../components/Favicons';
+import Footer from '../../components/Footer';
 import GAInit from '../../components/GAInit';
 import Jsonld from '../../components/JsonLd';
-import LayoutContainer from '../../components/LayoutContainer';
 import Masthead from '../../components/Masthead';
 import RecommendedArticles from '../../components/RecommendedArticles';
 import Seo from '../../components/Seo';
@@ -69,6 +69,7 @@ export default function Page({ data, isClosed, site, } = {}) {
             }}
           />
           <RecommendedArticles />
+          <Footer />
         </article>
         <Jsonld />
         <script
