@@ -3,28 +3,28 @@ import * as React from 'react';
 
 import { useData, } from './DataContext';
 import ArticleImage from './ArticleImage';
-import PromotionBanner from './PromotionBanner';
+import LayoutContainer from './LayoutContainer';
+// import PromotionBanner from './PromotionBanner';
 import PullQuote from './PullQuote';
 import Section from './Section';
 
 export default function ArticleBody({ isClosed, }) {
-  const { css, theme, } = useFela();
+  const { theme, } = useFela();
   const bodyData = useData('article', 'body');
   const focusActiveStyles = {
     color: theme.color('link', 'base'),
     borderBottomColor: theme.color('link', 'base'),
   };
 
-  const sectionClasses = css({
+  const sectionStyles = {
     margin: '6rem auto 0',
     position: 'relative',
-    padding: '0 2rem',
 
     '&>*+*': {
       marginTop: '3rem',
     },
     '&>h2+*': {
-      marginTop: '0',
+      marginTop: '1rem',
     },
 
     '& a': {
@@ -48,12 +48,13 @@ export default function ArticleBody({ isClosed, }) {
     '& em': { fontStyle: 'italic', },
     '& u': { textDecoration: 'underline', },
     '&>p': {
-      extend: [
-        theme.type(1, { untilBp: 'xl', lines: 5, }),
-        theme.type(0, { fromBp: 'xl', lines: 5, }),
-      ],
+      extend: [ theme.type(1, { lines: 5, }), ],
     },
-    '&>h2': { extend: [ theme.type(2), ], },
+    '&>h2': {
+      marginTop: '4rem',
+
+      extend: [ theme.type(2), ],
+    },
     '& mark': {
       backgroundColor: theme.color('bodyTextHighlight'),
     },
@@ -87,12 +88,20 @@ export default function ArticleBody({ isClosed, }) {
         }
       ),
     ],
-  });
+  };
 
   return (
-    <Section className={sectionClasses}>
-      {renderData(bodyData || [], isClosed)}
-    </Section>
+    <LayoutContainer
+      extraStyles={sectionStyles}
+      tagName="section"
+      attrs={{
+        id: 'articleBodyWrapper',
+      }}
+    >
+      <Section as={React.Fragment}>
+        {renderData(bodyData || [], isClosed)}
+      </Section>
+    </LayoutContainer>
   );
 }
 
