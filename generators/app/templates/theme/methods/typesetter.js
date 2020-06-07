@@ -26,7 +26,10 @@ export default function type(...args) {
   const firstArg = args[0];
   const firstArgIsOptions = firstArg.step != null;
   const step = firstArgIsOptions ? firstArg.step : firstArg;
-  const { from, until, lines, } = (firstArgIsOptions ? firstArg : args[1]) || {};
+  const options = (firstArgIsOptions ? firstArg : args[1]) || {};
+  const from = options.from || options.fromBp;
+  const until = options.until || options.untilBp;
+  const lines = options.lines;
 
   // Only enable `withLineHeight`, never disable it if it was previously anabled
   if (!activeatedTypeSteps[step]) {
