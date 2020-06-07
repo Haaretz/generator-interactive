@@ -309,6 +309,52 @@ const colorAliases = {
   pageBg: {
     default: [ 'neutral', '-10', ],
   },
+
+  commentPrimary: {
+    '-3': {
+      default: [ 'brand', '-6', ],
+    },
+    '-2': {
+      default: [ 'brand', '-4', ],
+    },
+    '-1': {
+      default: [ 'brand', '-3', ],
+    },
+    base: {
+      default: [ 'brand', 'base', ],
+    },
+    1: {
+      default: [ 'brand', '1', ],
+    },
+  },
+  commentSecondary: {
+    '-4': {
+      default: [ 'neutral', '-10', ],
+    },
+    '-3': {
+      default: [ 'neutral', '-4', ],
+    },
+    '-2': {
+      default: [ 'neutral', '-3', ],
+    },
+    '-1': {
+      default: [ 'neutral', '-2', ],
+    },
+    base: {
+      default: [ 'neutral', '-1', ],
+    },
+  },
+  commentNegative: {
+    '-1': {
+      default: [ 'tertiary', '-4', ],
+    },
+    base: {
+      default: [ 'tertiary', 'base', ],
+    },
+    1: {
+      default: [ 'tertiary', '1', ],
+    },
+  },
 };
 
 const palette = createColorPalette(baseColors, colorAliases);

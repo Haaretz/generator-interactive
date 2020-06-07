@@ -192,6 +192,7 @@ module.exports = class extends Generator {
     install([
       '@haaretz/vanilla-user-utils',
       'lazysizes',
+      'validator',
     ]);
   }
 

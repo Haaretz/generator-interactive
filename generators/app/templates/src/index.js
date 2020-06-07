@@ -3,11 +3,18 @@ import fireBiRequest from './fireBiRequest';
 // import initBiBanner from './initBiBanner';
 import initSocial from './initSocial';
 import lazyloadImages from './lazyloadImages';
+import initComments from './comments/index';
 // import setLoginBtn from './setLoginBtn';
 
 export default function init() {
   lazyloadImages();
   initSocial();
+
+  /*
+   * Your init code here
+   */
+
+  initComments();
   // initAnalyticsBanners({
   //   campaignName: undefined, // Replace with the project's campaign name
   //   bannerIds: undefined, // Ids of campaign banners to initiate events for

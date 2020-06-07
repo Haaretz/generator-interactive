@@ -5,13 +5,15 @@ import { PAGE_CONFIG, } from '../../consts/index';
 import ArticleBody from '../../components/ArticleBody';
 import ArticleHeader from '../../components/ArticleHeader';
 import ChartBeatInit from '../../components/ChartbeatInit';
+import Comments from '../../components/Comments';
+import FacebookInit from '../../components/FacebookInit';
+import Favicons from '../../components/Favicons';
+import GAInit from '../../components/GAInit';
 import Jsonld from '../../components/JsonLd';
 import LayoutContainer from '../../components/LayoutContainer';
 import Masthead from '../../components/Masthead';
 import Seo from '../../components/Seo';
-import FacebookInit from '../../components/FacebookInit';
-import Favicons from '../../components/Favicons';
-import GAInit from '../../components/GAInit';
+
 import getStaticPaths from '../../utils/getStaticPaths';
 import getStaticProps from '../../utils/getStaticProps';
 import { setDataAttributes, } from '../../utils/setDataAttributes';
@@ -56,10 +58,16 @@ export default function Page({ data, isClosed, site, } = {}) {
         <ChartBeatInit />
 
         <Masthead />
-        <LayoutContainer tagName="article">
+        <article>
           <ArticleHeader />
           <ArticleBody isClosed={isClosed} />
-        </LayoutContainer>
+          <Comments
+            miscStyles={{
+              maxWidth: '120rem',
+              margin: '6rem auto 0',
+            }}
+          />
+        </article>
         <Jsonld />
         <script
           type="text/javascript"
