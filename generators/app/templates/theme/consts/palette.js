@@ -219,7 +219,32 @@ const baseColors = {
   },
   // primary: {},
   // secondary: {},
-  // tertiary: {},
+  tertiary: {
+    '-4': {
+      default: '#FEE',
+    },
+    '-3': {
+      default: '#FFA6A6',
+    },
+    '-2': {
+      default: '#CC7676',
+    },
+    '-1': {
+      default: '#AB353B',
+    },
+    base: {
+      default: '#A8001C',
+    },
+    1: {
+      default: '#8A021B',
+    },
+    2: {
+      default: '#6A0114',
+    },
+    3: {
+      default: '#480713',
+    },
+  },
   // quaternary: {},
 
   // social
@@ -465,7 +490,7 @@ export function validateThemes(themes) {
   /* eslint-disable operator-linebreak */
   const hasValuesForEachTheme = isThemes
     ? // Ensure values are defined for each theme
-      theme.length &&
+      themes.length &&
       // make sure defined themes match the list of themes
       themeNames.filter(themeName => !themes.includes(themeName)).length === 0
       : false;
