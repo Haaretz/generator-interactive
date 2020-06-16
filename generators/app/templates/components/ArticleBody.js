@@ -107,23 +107,23 @@ export default function ArticleBody({ isClosed, }) {
 
 function renderData(data, isClosed) {
   const elements = data
-    .map(element => {
-      if (element.kind === 'htmlString') {
-        const Tag = element.tag;
+    .map(node => {
+      if (node.kind === 'htmlString') {
+        const Tag = node.tag;
         return (
           <Tag
-            key={element.content}
-            {...element.attrs}
-            dangerouslySetInnerHTML={{ __html: element.content, }}
+            key={node.content}
+            {...node.attrs}
+            dangerouslySetInnerHTML={{ __html: node.content, }}
           />
         );
       }
 
-      if (element.kind === 'image') {
+      if (node.kind === 'image') {
         return (
           <ArticleImage
-            key={element.contentName}
-            data={element}
+            key={node.contentName}
+            data={node}
             sizes={[
               { from: 'xl', size: '1022px', },
               { from: 'l', size: '834px', },
@@ -137,10 +137,10 @@ function renderData(data, isClosed) {
         );
       }
 
-      if (element.inputTemplate === 'com.htz.MagazineArticleQuote') {
+      if (node.inputTemplate === 'com.htz.MagazineArticleQuote') {
         return (
-          <PullQuote key={element.contentId || element.contentName}>
-            {element.text}
+          <PullQuote key={node.contentId || node.contentName}>
+            {node.text}
           </PullQuote>
         );
       }
