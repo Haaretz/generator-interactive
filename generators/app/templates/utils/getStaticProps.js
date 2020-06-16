@@ -1,5 +1,6 @@
 /* global fetch */
 import chalk from 'chalk';
+import config from 'config';
 
 import { PAGES_URL_PARTS, } from '../consts/index';
 import processArticleBody from './processArticleBody';
@@ -90,12 +91,15 @@ async function parseData(url, filename, domain, id) {
 }
 
 async function getPapiJson(url, id) {
-  const response = await fetch(`${url}?exploded=true`);
+  if (!config.get(useUnaprovedData)) {
+    const response = await fetch(`${url}?exploded=true`);
 
-  if (response.ok) {
-    const json = await response.json();
-    return json;
+    if (response.ok) {
+      const json = await response.json();
+      return json;
+    }
   }
+
 
   const GET_CONTENT_IDS_URL
     = 'https://editor.haaretz.co.il/generalActionsServlet?data&action=getParentIds&contentId=';
