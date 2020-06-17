@@ -104,6 +104,10 @@ export function colorFunctionsFactory(colorPalette, listOfThemes) {
         const selector
           = defaultThemeName === themeName ? ':root' : `.${themeName}`;
 
+        // sort color custom props so that aliases
+        // are set *after* the colors they point to
+        customProps.sort(a => (a.includes('var(--color-') ? 1 : -1));
+
         return `${cssString}${selector}{${customProps.join('')}}`;
       },
       ''
