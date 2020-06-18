@@ -91,7 +91,7 @@ async function parseData(url, filename, domain, id) {
 }
 
 async function getPapiJson(url, id) {
-  if (!config.get(useUnaprovedData)) {
+  if (!config.get('useUnaprovedData')) {
     const response = await fetch(`${url}?exploded=true`);
 
     if (response.ok) {

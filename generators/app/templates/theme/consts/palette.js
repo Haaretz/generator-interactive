@@ -37,14 +37,14 @@
  * -----------------------
  * @typedef {Object.<string, BaseColorThemes>} BaseColorVariants
  * -----------------------
- *  @example
- *  {
- *    '-8': {
- *      default: '#fff',
- *      darkMode: '#000',
- *    },
- *    // ...
- *  },
+ * @example
+ * {
+ *   '-8': {
+ *     default: '#fff',
+ *     darkMode: '#000',
+ *   },
+ *   // ...
+ * },
  */
 
 /**
@@ -63,14 +63,14 @@
  * -----------------------
  * @typedef {Object.<string, ColorAliasThemes>} ColorAliasVariants
  * -----------------------
- *  @example
- *  {
- *    '-8': {
- *      default: '#fff',
- *      darkMode: '#000',
- *    },
- *    // ...
- *  },
+ * @example
+ * {
+ *   '-8': {
+ *     default: '#fff',
+ *     darkMode: '#000',
+ *   },
+ *   // ...
+ * },
  */
 
 ////////////////////////////////////////////////////////////////////////
