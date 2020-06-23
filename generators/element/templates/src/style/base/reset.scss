@@ -1,3 +1,11 @@
+// Setup
+@import "../settings/vars.scss";
+
+// Easy and flexible media queries
+// Aliases @include jigsass-mq with @include mq for ease of use
+// See docs at: https://txhawks.github.io/jigsass-tools-mq/#mixin-jigsass-mq
+@import "../tools/mq";
+
 @if $isDev == true and $isApp != true {
   /**************************************************
    *                                                *

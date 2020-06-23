@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 // Dev only styles. Will not generate anything for production builds
-import './style/base/reset.css';
+import './style/base/reset.scss';
 
 // Main Stylesheet
 import './style/styles.scss';

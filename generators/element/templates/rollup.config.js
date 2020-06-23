@@ -122,12 +122,12 @@ function plugins({ type, } = {}) {
     const sassData = Object.entries({
       isDev: !isProd(),
       isApp: <%= inApp %>,
-      ...(<%= theme %>),
+      ...(<%= JSON.stringify(theme, null, 2) %>),
     }).reduce((vars, entry) => `${vars}$${entry[0]}:${jsToSass(entry[1])};`, '');
 
     const postcssConfig = {
       plugins: [
-        postcssLogical({ dir: <%= lang.toLowerCase() === 'english' ? 'ltr' : 'rtl' %>, }),
+        postcssLogical({ dir: <%= lang.toLowerCase() === 'english' ? "'ltr'" : "'rtl'" %>, }),
         autoprefixer,
       ],
       extract: true,
