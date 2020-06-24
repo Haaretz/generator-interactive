@@ -17,17 +17,17 @@
     "build:pre": "yarn build:js && yarn build:next:pre",
     "clean": "rm -rf ./public/*.{js,json,css,map,html}",
     "dev": "concurrently \"yarn dev:js\" \"yarn dev:next\"",
+    "deploy": "node ./scripts/deploy.js pages --target <%= elementName %>",
+    "deploy:pre": "node ./scripts/deploy.js pages --profile pre --target <%= elementName %>",
     "dev:next": "next",
     "dev:js": "cross-env NODE_ENV=\"dev\" rollup -c -w",
+    "export": "rm -rf .next out & yarn build && next export",
+    "export:pre": "rm -rf .next out & yarn build:pre && next export",
     "gc": "git cz",
     "lint": "eslint ./",
     "format": "eslint --fix ./",
     "test": "jest ./",
-    "test:watch": "jest --watch ./",
-    "export": "rm -rf .next out & yarn build && next export",
-    "export:pre": "rm -rf .next out & yarn build:pre && next export",
-    "deploy": "node ./scripts/deploy.js pages --target <%= elementName %>",
-    "deploy:pre": "node ./scripts/deploy.js pages --profile pre --target <%= elementName %>"
+    "test:watch": "jest --watch ./"
   },
   "repository": {
     "type": "git",
