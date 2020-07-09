@@ -1,9 +1,6 @@
-const baseUrl = 'https://www.haaretz.co.il';
+const baseUrl = 'https://www.<%= site.toLowerCase() %>';
 let lineageStr = '';
 
-// export const setBaseUrl = isDev => {
-//   baseUrl = `https://${isDev ? 'pre' : 'www'}.haaretz.co.il`;
-// };
 export const setLineageStr = str => {
   lineageStr = str;
 };
