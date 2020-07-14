@@ -2,7 +2,7 @@ import { useFela, } from 'react-fela';
 import * as React from 'react';
 
 import VisuallyHidden from './VisuallyHidden';
-import IconHaaretzCom from './IconHaaretzCom';
+import IconHaaretzCom from './IconHaaretzComFull';
 import IconHaaretzLogo from './IconHaaretzLogo';
 import IconTheMarkerLogo from './IconTheMarkerLogo';
 import { useData, } from './DataContext';
