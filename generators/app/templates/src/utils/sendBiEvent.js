@@ -46,17 +46,22 @@ export function sendBiEvent({
     navigator.sendBeacon(`${DS_BASE_URL}/${eventType}`, data);
   }
   else {
-    withTimeout(
-      window.fetch(`${DS_BASE_URL}/${eventType}`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/json',
-        },
-        body: data,
-        cache: 'no-cache',
-      })
-    );
+    try {
+      withTimeout(
+        window.fetch(`${DS_BASE_URL}/${eventType}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+          },
+          body: data,
+          cache: 'no-cache',
+        })
+      );
+  }
+  catch (err) {
+    console.error(err.stack);
+  }
   }
 }
 
