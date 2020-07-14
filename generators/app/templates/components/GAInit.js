@@ -21,8 +21,8 @@ export default function GAInit({ site, }) {
 function getSiteCode(site) {
   const siteToCode = {
     'haaretz.co.il': 'UA-589309-3',
-    'themarker.com': 'UA-589309-2',
-    'haaretz.com': 'UA-3574867-1',
+    'themarker.com': 'UA-3574867-1',
+    'haaretz.com': 'UA-589309-2',
   };
 
   return siteToCode[site];
