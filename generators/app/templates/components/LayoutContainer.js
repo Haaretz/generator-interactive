@@ -52,10 +52,10 @@ export default function LayoutContainer({
 }) {
   const className = useFela().css(styles, extraStyles);
   const Element = tagName;
-  const className = `${extraClasses ? extraClasses +  ' ' : ''}${className}`;
+  const classes = `${extraClasses ? extraClasses +  ' ' : ''}${className}`;
 
   return (
-    <Element className={className} {...attrs}>
+    <Element className={classes} {...attrs}>
       {children}
     </Element>
   );

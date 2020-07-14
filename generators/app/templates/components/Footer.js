@@ -14,7 +14,7 @@ const logos = {
 };
 
 export default function Footer() {
-  const { site: siteFromData, } = useData();
+  const { site, siteFromData, } = useData();
   const { css, theme, } = useFela();
 
   const Logo = logos[site || siteFromData];
