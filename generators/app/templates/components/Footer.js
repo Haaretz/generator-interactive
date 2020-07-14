@@ -2,10 +2,22 @@ import { useFela, } from 'react-fela';
 import * as React from 'react';
 
 import IconAlefLogo from './IconAlefLogo';
+import IconMarkerM from './IconMarkerM';
 import ShareBar from './ShareBar';
 
+import { useData, } from './DataContext';
+
+const logos = {
+  'haaretz.co.il': IconAlefLogo,
+  'haaretz.com': IconAlefLogo,
+  'themarker.com': IconMarkerM,
+};
+
 export default function Footer() {
+  const { site: siteFromData, } = useData();
   const { css, theme, } = useFela();
+
+  const Logo = logos[site || siteFromData];
 
   return (
     <footer
@@ -36,9 +48,9 @@ export default function Footer() {
         })}
       >
         <div className={css({ marginBottom: '3rem', position: 'relative', })}>
-          <IconAlefLogo size={8} color={[ 'brand', '-1', ]} />
+          <Logo size={8} color={[ 'brand', '-1', ]} />
         </div>
-        <ShareBar isMonochrome wrapperStyles={{ position: 'relative', }} />
+        <ShareBar wrapperStyles={{ position: 'relative', }} />
       </div>
     </footer>
   );
