@@ -7,13 +7,14 @@ import IconTwitter from './IconTwitter';
 import IconWhatsapp from './IconWhatsapp';
 import VisuallyHidden from './VisuallyHidden';
 
-export default function ShareBar() {
+export default function ShareBar({ fill, }) {
   const seoData = useData('seoData');
   const site = useData('site');
 
   const { css, theme, } = useFela();
 
   const wrapperClasses = css({
+    position: 'relative',
     verticalAlign: 'middle',
     whiteSpace: 'nowrap',
   });
@@ -34,7 +35,7 @@ export default function ShareBar() {
             : 'שתפו בפייסבוק'
         }
       >
-        <IconFacebookLogo size={5} color="facebook" />
+        <IconFacebookLogo size={5} color={fill || 'facebook'} />
         <VisuallyHidden>
           {site.toLowerCase() === 'haaretz.com'
             ? 'Share on Facebook'
@@ -51,7 +52,7 @@ export default function ShareBar() {
             : 'שתפו בטוויטר'
         }
       >
-        <IconTwitter size={5} color="twitter" />
+        <IconTwitter size={5} color={fill || 'twitter'} />
         <VisuallyHidden>
           {site.toLowerCase() === 'haaretz.com'
             ? 'Share on Twitter'
@@ -73,7 +74,7 @@ export default function ShareBar() {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <IconWhatsapp size={5} color="whatsapp" />
+        <IconWhatsapp size={5} fill={fill || 'whatsapp'} />
         <VisuallyHidden>
           {site.toLowerCase() === 'haaretz.com'
             ? 'Share on WhatsApp'
@@ -94,7 +95,7 @@ export default function ShareBar() {
         )}`}
         rel="noopener noreferrer"
       >
-        <IconWhatsapp size={5} color="whatsapp" />
+        <IconWhatsapp size={5} fill={fill || 'whatsapp'} />
         <VisuallyHidden>
           {site.toLowerCase() === 'haaretz.com'
             ? 'Share on WhatsApp'
