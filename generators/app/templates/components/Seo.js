@@ -4,6 +4,12 @@ import React from 'react';
 import { useData, } from './DataContext';
 import { buildImgUrl, } from '../utils/buildImgURLs';
 
+const twitterHandler = {
+  'haaretz.co.il': '@haaretz',
+  'themarker.com': '@TheMarker',
+  'haaretz.com': '@haaretzcom',
+}
+
 export default function Seo() {
   const { seoData, site, } = useData();
 
@@ -60,7 +66,7 @@ export default function Seo() {
         content="summary_large_image"
         key="twitter:card"
       />
-      <meta name="twitter:site" content="@haaretz" key="twitter:site" />
+      <meta name="twitter:site" content={twitterHandler[site]} key="twitter:site" />
       <meta name="twitter:title" content={ogTitle} key="twitter:title" />
       <meta
         name="twitter:description"
