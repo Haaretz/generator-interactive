@@ -10,7 +10,8 @@ export default {<% if (langCode === 'he') { %>
   moreComments: 'עוד תגובות',
   dateDesc: 'מהאחרונה לראשונה',
   dateAsc: 'מהראשונה לאחרונה',
-  sort: 'סדרו את התגובות',<% } else { %>like: 'Like',
+  sort: 'סדרו את התגובות',
+  <% } else { %>like: 'Like',
   dislike: 'Dislike',
   reply: 'Reply',
   report: 'Report',
@@ -22,7 +23,7 @@ export default {<% if (langCode === 'he') { %>
   dateDesc: 'Newest first',
   dateAsc: 'Oldest first',
   sort: 'Sort comments by',
-<% { %>};
+<% } %>};
 
 export const formTexts = {<% if (langCode === 'he') { %>
   name: {
@@ -55,7 +56,8 @@ export const formTexts = {<% if (langCode === 'he') { %>
   cancel: 'בטלו',
   submitSuccessBold: 'תגובתך נקלטה בהצלחה,',
   submitSuccessAfterBold: ' ותפורסם על פי מדיניות המערכת',
-  submitSuccessGetNotified: 'באפשרותך לקבל התראה בדוא"ל כאשר תגובתך תאושר ותפורסם.',<% } else { %>name: {
+  submitSuccessGetNotified: 'באפשרותך לקבל התראה בדוא"ל כאשר תגובתך תאושר ותפורסם.',
+  <% } else { %>name: {
     placeholder: 'Name',
     note: {
       initial: 'Enter the commenter display name',
@@ -89,4 +91,4 @@ export const formTexts = {<% if (langCode === 'he') { %>
     ' and will be published in accordance with site policy.',
   submitSuccessGetNotified:
     'If you would like to be notified when your comment is published, please fill in your email address in the form below',
-<% { %>};
+<% } %>};
