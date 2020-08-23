@@ -1,3 +1,6 @@
+import buildFastylImgURL from './buildFastlyImgUrl';
+import buildCloudinaryImgUrl from './buildCloudinaryImgUrl';
+
 const aspectRatios = {
   regular: 1.3,
   headline: 1.72,
@@ -117,10 +120,9 @@ export function buildImgUrls(contentId, data, options, excludeWidthDescriptor) {
  */
 
 export function buildImgUrl(contentId, data, options = {}) {
-  const baseUrl = 'https://images.haarets.co.il/image';
-  const polopolyImageBaseHref = 'https://www.haaretz.co.il';
-  const { imgName, version, aspects, } = data;
-  const imageNameFromData = imgName.split('/')[1];
+  const { imgName: imgNameAndType, version, aspects, } = data;
+  const imgName = imgNameAndType.split('/')[1];
+  const isGif = imgName.endsWith('gif');
 
   // Fail early when mandatory options aren't present.
   // eslint-disable-next-line eqeqeq
@@ -138,49 +140,25 @@ export function buildImgUrl(contentId, data, options = {}) {
     height: computeHeight(options.width, options.aspect || 'full', aspects),
     ...options,
   };
-
-  const transformPrefixes = {
-    width: 'w_',
-    height: 'h_',
-    quality: 'q_',
-    x: 'x_',
-    y: 'y_',
-    gravity: 'g_',
-  };
   const cropData = aspects[settings.aspect] || aspects.full;
 
-  const initialTransforms = `${Object.keys(cropData).reduce(
-    (allTransforms, propName) => {
-      const transfromString = transformPrefixes[propName] + cropData[propName].toString();
-      return allTransforms + (allTransforms ? ',' : '/') + transfromString;
-    },
-    ''
-  )},c_crop`;
+  if (isGif) {
+    // Use Cloudinary for (animated) gifs
+    return buildFastylImgURL({
+      contentId,
+      imgName,
+      cropData,
+      settings,
+    });
+  }
 
-  const userTransforms = `${Object.keys(settings).reduce(
-    (allTransforms, propName) => {
-      const prefix = transformPrefixes[propName];
-      const transfromString = prefix ? prefix + settings[propName] : '';
-      return prefix
-        ? allTransforms + (allTransforms ? ',' : '/') + transfromString
-        : allTransforms;
-    },
-    ''
-  )},c_fill,f_auto,g_auto`;
-
-  // const { transforms, flags, } = settings;
-
-  // Url suffix based on whether this is an uploaded or fetched image
-  const urlSuffix = version
-    ? `/v${version}/${contentId}.${imageNameFromData}`
-    : `/${polopolyImageBaseHref}/polopoly_fs/${contentId}!/image/${imageNameFromData}`;
-  // construct url string from params
-  const url = baseUrl
-    + (version ? '/upload' : '/fetch')
-    + initialTransforms
-    + userTransforms
-    + urlSuffix;
-  return url;
+  return buildCloudinaryImgUrl({
+    contentId,
+    imgName,
+    cropData,
+    settings,
+    version,
+  });
 }
 
 function computeHeight(width, aspect, aspects) {

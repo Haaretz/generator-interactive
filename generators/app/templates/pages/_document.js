@@ -55,8 +55,8 @@ export default class CustomDocument extends Document {
       >
         <Head>
           <meta charSet="utf-8" />
-          <link rel="preconnect" href="https://images.haarets.co.il/" />
-          <link rel=" dns-prefetch" href="https://images.haarets.co.il/" />
+          <link rel="preconnect" href="https://img.haarets.co.il/" />
+          <link rel=" dns-prefetch" href="https://img.haarets.co.il/" />
           <PreloadJS />
         </Head>
         <body>
