@@ -34,7 +34,7 @@ async function parseData(url, filename, domain, id) {
 
   try {
     const json = await getPapiJson(url, id);
-    const { lineage, jsonld, seoData, slots, } = json;
+    const { lineage, jsonld, seoData, slots, sectionContentIds, } = json;
     const articleSlotFromJson = slots.article;
     const sectionName = articleSlotFromJson.find(
       ({ inputTemplate, }) => inputTemplate === 'com.tm.PageTitle'
@@ -74,6 +74,7 @@ async function parseData(url, filename, domain, id) {
       recommendedArticles,
       secondarySection,
       section: sectionName,
+      sectionContentIds,
       seoData,
       site,
       writers,
@@ -91,11 +92,24 @@ async function parseData(url, filename, domain, id) {
 }
 
 async function getPapiJson(url, id) {
+  const GET_CONTENT_IDS_URL
+    = 'https://editor.haaretz.co.il/generalActionsServlet?data&action=getParentIds&contentId=';
+  const contentIdsResponse = await fetch(GET_CONTENT_IDS_URL + id);
+
+  if (!contentIdsResponse.ok) {
+    const error = new Error(contentIdsResponse.statusText);
+    error.response = contentIdsResponse;
+    throw error;
+  }
+
+  const contentIds = await contentIdsResponse.json();
+
   if (!config.get('useUnaprovedData')) {
     const response = await fetch(`${url}?exploded=true`);
 
     if (response.ok) {
       const json = await response.json();
+      json.sectionContentIds = contentIds.slice(0, -1);
       return json;
     }
   }
