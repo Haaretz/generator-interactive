@@ -144,21 +144,21 @@ export function buildImgUrl(contentId, data, options = {}) {
 
   if (isGif) {
     // Use Cloudinary for (animated) gifs
-    return buildFastylImgURL({
+    return buildCloudinaryImgUrl({
+      contentId,
+      imgName,
+      cropData,
+      settings,
+      version,
+    });
+  }
+
+  return buildFastylImgURL({
       contentId,
       imgName,
       cropData,
       settings,
     });
-  }
-
-  return buildCloudinaryImgUrl({
-    contentId,
-    imgName,
-    cropData,
-    settings,
-    version,
-  });
 }
 
 function computeHeight(width, aspect, aspects) {
