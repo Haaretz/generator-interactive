@@ -1,5 +1,5 @@
 import { renderToNodeList, } from 'react-fela';
-import Document, { Head, Main, NextScript, } from 'next/document';
+import Document, { Html, Head, Main, NextScript, } from 'next/document';
 import React from 'react';
 import config from 'config';
 
@@ -48,7 +48,7 @@ export default class CustomDocument extends Document {
 
   render() {
     return (
-      <html
+      <Html
         lang={LANG}
         dir={LANG === 'he' ? 'rtl' : 'lrt'}
         {...generateDataAttributes()}
@@ -73,7 +73,7 @@ export default class CustomDocument extends Document {
           />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }

@@ -51,9 +51,9 @@ async function parseData(url, filename, domain, id) {
     const body = articleDataFromJson.body.map(processArticleBody);
     articleDataFromJson.body = body;
 
-    const recommendedArticles = slots.postMain?.find(({ inputTemplate, view, }) => (
-      inputTemplate === 'com.tm.element.List' && view === 'Bender'
-    )) || null;
+    const recommendedArticles = slots.postMain?.find(
+      ({ inputTemplate, view, }) => (inputTemplate === 'com.tm.element.List' && view === 'Bender')
+    ) || null;
 
     const isClosed = filename.includes('closed');
     const site = domain.toLowerCase();
@@ -103,46 +103,41 @@ async function getPapiJson(url, id) {
   }
 
   const contentIds = await contentIdsResponse.json();
+  let json;
 
-  if (!config.get('useUnaprovedData')) {
+  if (config.get('useUnaprovedData')) {
+    const papiPreviewUrl = `https://editor.haaretz.co.il/preview/papi/${contentIds.join(
+      '/'
+    )}?contentIdsInEdit=${
+      contentIds[contentIds.length - 1]
+    }&data&exploded=true`;
+
+    const previewResponse = await fetch(papiPreviewUrl, {
+      method: 'GET',
+      headers: {
+        Cookie:
+          'userId=98; path=/; domain=editors.haaretz.co.il; Expires=Tue, 19 Jan 2038 03:14:07 GMT;',
+      },
+    });
+
+    if (!previewResponse.ok) {
+      const error = new Error(previewResponse.statusText);
+      error.response = previewResponse;
+      throw error;
+    }
+
+    json = await previewResponse.json();
+  }
+  else {
     const response = await fetch(`${url}?exploded=true`);
 
-    if (response.ok) {
-      const json = await response.json();
-      json.sectionContentIds = contentIds.slice(0, -1);
-      return json;
+    if (response.ok) json = await response.json();
+    else {
+      const error = new Error(response.statusText);
+      error.response = response;
+      throw error;
     }
   }
-
-
-  const GET_CONTENT_IDS_URL
-    = 'https://editor.haaretz.co.il/generalActionsServlet?data&action=getParentIds&contentId=';
-  const contentIdsResponse = await fetch(GET_CONTENT_IDS_URL + id);
-
-  if (!contentIdsResponse.ok) {
-    const error = new Error(contentIdsResponse.statusText);
-    error.response = contentIdsResponse;
-    throw error;
-  }
-  const contentIds = await contentIdsResponse.json();
-  const papiPreviewUrl = `https://editor.haaretz.co.il/preview/papi/${contentIds.join(
-    '/'
-  )}?contentIdsInEdit=${contentIds[contentIds.length - 1]}&data&exploded=true`;
-
-  const previewResponse = await fetch(papiPreviewUrl, {
-    method: 'GET',
-    headers: {
-      Cookie:
-        'userId=98; path=/; domain=editors.haaretz.co.il; Expires=Tue, 19 Jan 2038 03:14:07 GMT;',
-    },
-  });
-
-  if (!previewResponse.ok) {
-    const error = new Error(previewResponse.statusText);
-    error.response = previewResponse;
-    throw error;
-  }
-
-  const json = await previewResponse.json();
+  json.sectionContentIds = contentIds.slice(0, -1);
   return json;
 }
