@@ -14,8 +14,8 @@ export default function initBiBanner({
     feature: 'banner',
     feature_type: featureType,
     campaign_name: campaignName,
-    campaign_details: campaignDetails
-      || (bannerElement && bannerElement.textContent),
+    campaign_details:
+      campaignDetails || (bannerElement && bannerElement.textContent),
   };
 
   const bannerActionData = {
@@ -31,7 +31,7 @@ export default function initBiBanner({
       threshold: 1,
     });
 
-    bannerElement.addEventListener('click', sendBiEvent({
+    bannerElement.addEventListener('click', () => sendBiEvent({
       eventType: 'action',
       data: bannerActionData,
     }));

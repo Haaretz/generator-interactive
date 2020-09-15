@@ -10,7 +10,7 @@ export default function fireBiRequest() {
           Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/json',
         },
-        body: getStatBaseData(),
+        body: JSON.stringify(getStatBaseData()),
         cache: 'no-cache',
       })
     );

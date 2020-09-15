@@ -42,8 +42,10 @@ export function sendBiEvent({
     );
   }
 
-  if (typeof navigator.sendBeacon === 'function') {
-    navigator.sendBeacon(`${DS_BASE_URL}/${eventType}`, data);
+  const serialiezedData = JSON.stringify({ ...getStatBaseData(), ...data, });
+
+  if (eventType === 'action' && typeof navigator.sendBeacon === 'function') {
+    navigator.sendBeacon(`${DS_BASE_URL}/actionPlain`, serialiezedData);
   }
   else {
     try {
@@ -54,14 +56,14 @@ export function sendBiEvent({
             Accept: 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
           },
-          body: data,
+          body: serialiezedData,
           cache: 'no-cache',
         })
       );
-  }
-  catch (err) {
-    console.error(err.stack);
-  }
+    }
+    catch (err) {
+      console.error(err.stack);
+    }
   }
 }
 
@@ -76,7 +78,7 @@ function parseUtms() {
     'source',
     'campaign',
     'type',
-  ].reduce((params, param) => [ ...params, `utm_${param}`, 'htm_{param}', ], []);
+  ].reduce((params, param) => [ ...params, `utm_${param}`, `htm_${param}`, ], []);
 
   return (
     window.location.search
