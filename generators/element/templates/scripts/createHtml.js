@@ -16,9 +16,9 @@ export default function createHtml({
 }) {
   const pathPrefix
     = process.env.IS_PRE === 'true'
-      ? '/st<$= remotePath $>'
+      ? '<$= remotePath $>'
       : process.env.NODE_ENV === 'production'
-        ? '/st<$= remotePathPre $>'
+        ? '<$= remotePathPre $>'
         : './';
 
   const templateVars = {
