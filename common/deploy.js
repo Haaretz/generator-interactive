@@ -84,7 +84,7 @@ async function getRepoName() {
 
   if (!origin) throw new Error('Your project dos\'nt seem to have an "origin" remote');
 
-  const [ orgOrUser, repoName, ] = origin.match(/^.*?github\.com(?::|\/)(.*?)\/(.*?)(?:\.git)/)
+  const [ orgOrUser, repoName, ] = origin.match(/^.*?github\.com(?::|\/)(.+)\/(.+[^.git])(?:.git)?$/)
     .slice(1)
     .map(x => x.toLowerCase());
 
