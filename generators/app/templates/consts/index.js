@@ -45,9 +45,5 @@ export const PAGES_URL_PARTS = (pages => {
   });
 })(PAGES);
 
-export const PAGE_CONFIG = {
-  unstable_runtimeJS: false,
-};
-
 export const POLYFILL_SRC
   = 'https://polyfill.io/v3/polyfill.min.js?flags=gated&unknown=polyfill&features=IntersectionObserver%2CIntersectionObserverEntry%2Cdefault%2CObject.entries%2CArray.prototype.entries%2Cfetch%2CArray.prototype.find%2CArray.prototype.findIndex%2CArray.prototype.includes%2CFunction.prototype.name%2CArray.prototype.%40%40iterator';

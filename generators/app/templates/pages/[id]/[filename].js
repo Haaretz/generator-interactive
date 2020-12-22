@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { DataProvider, } from '../../components/DataContext';
-import { PAGE_CONFIG, } from '../../consts/index';
 import ArticleBody from '../../components/ArticleBody';
 import ArticleHeader from '../../components/ArticleHeader';
 import ChartBeatInit from '../../components/ChartbeatInit';
@@ -86,4 +85,8 @@ export default function Page({ data, isClosed, site, } = {}) {
   return null;
 }
 
-export { getStaticPaths, getStaticProps, PAGE_CONFIG as config, };
+const config = {
+  unstable_runtimeJS: false,
+};
+
+export { getStaticPaths, getStaticProps, config, };
