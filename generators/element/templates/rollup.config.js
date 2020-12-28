@@ -105,10 +105,7 @@ function plugins({ type, } = {}) {
       exclude: [ 'node_modules/**', '!node_modules/ramda/es', ],
       presets: [ [ '@babel/preset-env', {
         targets: { browsers, },
-        // useBuiltIns: 'usage',
-        // corejs: 3,
       }, ], ],
-      // plugins: [['@babel/plugin-transform-react-jsx']],
     }),
     replace({ 'process.env.NODE_ENV': JSON.stringify('production'), }),
     manifestPlugin(),
@@ -117,7 +114,6 @@ function plugins({ type, } = {}) {
   if (isProd()) {
     pluginList.push(terser({ module: type !== 'nomodule', }));
   }
-  <% if (!inApp) { %>
   if (type === 'style') {
     const sassData = Object.entries({
       isDev: !isProd(),
@@ -127,7 +123,7 @@ function plugins({ type, } = {}) {
 
     const postcssConfig = {
       plugins: [
-        postcssLogical({ dir: <%= lang.toLowerCase() === 'english' ? "'ltr'" : "'rtl'" %>, }),
+        postcssLogical({ dir: '<%= lang.toLowerCase() === 'english' ? 'ltr' : 'rtl' %>', }),
         autoprefixer,
       ],
       extract: true,
@@ -145,9 +141,8 @@ function plugins({ type, } = {}) {
     };
 
     pluginList.splice(2, 0, postcss(postcssConfig));
-    pluginList.push(fillHtmlPlugin());
   }
-  <% } %>
+
   // module build
   if (type === 'module') {
     pluginList.unshift(del({
@@ -157,11 +152,13 @@ function plugins({ type, } = {}) {
   }
   if (type !== 'nomodule') pluginList.push(modulepreloadPlugin());
 
+  pluginList.push(fillHtmlPlugin());
+
   return pluginList;
 }
 
 // Module config for <script type="module">
-const moduleConfig = {
+const moduleConfig = () => ({
   input: { module: 'src/module.js', },
   output: {
     dir: pkg.config.publicDir,
@@ -189,6 +186,8 @@ const moduleConfig = {
         return undefined;
       }
 
+      if (name.match(/^d3-/i)) return 'd3';
+
       // Otherwise just return the name.
       return name;
     }
@@ -198,10 +197,10 @@ const moduleConfig = {
   watch: {
     clearScreen: false,
   },
-};
+});
 
 // Legacy config for <script nomodule>
-const nomoduleConfig = {
+const nomoduleConfig = () => ({
   input: {
     nomodule: 'src/nomodule.js',
   },
@@ -215,12 +214,9 @@ const nomoduleConfig = {
   watch: {
     clearScreen: false,
   },
-};
+});
 
-<% if (inApp) { %>
-const configs = [ moduleConfig, nomoduleConfig, ];
-<% } else { %>
-const stylesConfig = {
+const stylesConfig = () => ({
   input: { styles: 'src/styles.js', },
   output: {
     dir: pkg.config.publicDir,
@@ -231,10 +227,9 @@ const stylesConfig = {
     sourcemap: true,
   },
   plugins: plugins({ type: 'style', }),
-};
-const configs = [ moduleConfig, nomoduleConfig, stylesConfig, ];
-<% } %>
+});
 
+const configs = [ moduleConfig(), nomoduleConfig(), stylesConfig(), ];
 
 function isProd() {
   return process.env.NODE_ENV === 'production';
