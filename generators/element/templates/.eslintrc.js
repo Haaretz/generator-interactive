@@ -3,7 +3,8 @@ module.exports = {
   env: {
     commonjs: true,
     es6: true,
-    node: true
+    node: true,
+    browser: true
   },
   globals: {
     Atomics: "readonly",
@@ -12,6 +13,9 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018
   },
+  ignorePatterns: [
+    'public/**/*',
+  ],
   rules: {
     "array-bracket-spacing": ["error", "always"],
     "arrow-parens": ["error", "as-needed"],
