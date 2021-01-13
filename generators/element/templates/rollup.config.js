@@ -5,6 +5,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import del from 'rollup-plugin-delete';
+import config from 'config';
 <% if (!inApp) { %>
 import postcss from 'rollup-plugin-postcss';
 import postcssLogical from 'postcss-logical';
@@ -14,6 +15,7 @@ import createHtml from './scripts/createHtml';
 <% } %>
 import pkg from './package.json';
 
+const pathPrefix = config.get('pathPrefix');
 
 // NOTE: this value must be defined outside of the plugin because it needs
 // to persist from build to build (e.g. the module and nomodule builds).
@@ -107,7 +109,14 @@ function plugins({ type, } = {}) {
         targets: { browsers, },
       }, ], ],
     }),
-    replace({ 'process.env.NODE_ENV': JSON.stringify('production'), }),
+    replace({
+      process: JSON.stringify({
+        env: {
+          NODE_ENV: 'production',
+        },
+        pathPrefix,
+      }),
+    }),
     manifestPlugin(),
   ];
   // Only add minification in production and when not running on Glitch.
