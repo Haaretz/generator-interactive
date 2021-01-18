@@ -1,4 +1,4 @@
-const BASE_URL = 'https://images.haarets.co.il/image';
+const BASE_URL = 'https://gif.haarets.co.il/image';
 const POLOPOLY_HREF_BASE = 'https://www.haaretz.co.il';
 const transformPrefixes = {
   width: 'w_',
