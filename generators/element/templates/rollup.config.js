@@ -161,7 +161,7 @@ function plugins({ type, } = {}) {
   }
   if (type !== 'nomodule') pluginList.push(modulepreloadPlugin());
 
-  pluginList.push(fillHtmlPlugin());
+<% if (!inApp) { %> pluginList.push(fillHtmlPlugin());<% } %>
 
   return pluginList;
 }
