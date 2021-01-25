@@ -11,12 +11,21 @@ commands, based on the type of project you are scaffolding:
 **Page:**
 
 ```sh
-npx -p yo -p @haaretz/generator-interactive -c 'yo @haaretz/interactive:app'
+npm init yo @haaretz/interactive:app
 ```
+Or with Yarn:
+```sh
+yarn create yo @haaretz/interactive:app
+```
+
 
 **Element(s):**
 ```sh
-npx -p yo -p @haaretz/generator-interactive -c 'yo @haaretz/interactive:element'
+npm init yo @haaretz/interactive:element
+```
+Or with Yarn:
+```sh
+yarn create yo @haaretz/interactive:element
 ```
 
 Your new project will now be git initialized with all base files committed,
