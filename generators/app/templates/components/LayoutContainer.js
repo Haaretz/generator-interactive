@@ -4,31 +4,26 @@ import { parseComponentProp, } from '@haaretz/htz-css-tools';
 
 
 export const styles = ({ bgc, namedBgc, theme, }) => ({
-  paddingLeft: '2rem',
-  paddingRight: '2rem',
+
+  display: 'grid',
+  gridTemplateColumns: `2rem 1fr 2rem`,
+  // By default, place each descendant element into
+  // the main column.
+  '& > *': {
+    gridColumn: '2',
+  },
+
+  '& > .full': {
+    gridColumn: '1 / -1',
+  },
+  '& > .pull-start': {
+    gridColumn: '1 / 2',
+  },
+  '& > .pull-end': {
+    gridColumn: '2 / 3',
+  },
 
   extend: [
-    theme.mq({ from: 's'}, {
-      display: 'grid',
-      gridTemplateColumns: `2rem 1fr 2rem`,
-      paddingRight: '0',
-      paddingLeft: '0',
-
-      // By default, place each descendant element into
-      // the main column.
-      '& > *': {
-        gridColumn: '2',
-      },
-      '& > .full': {
-        gridColumn: '1 / -1',
-      },
-      '& > .pull-start': {
-        gridColumn: '1 / 2',
-      },
-      '& > .pull-end': {
-        gridColumn: '2 / 3',
-      },
-    }),
 
     parseComponentProp(
       'gridTemplateColumns',

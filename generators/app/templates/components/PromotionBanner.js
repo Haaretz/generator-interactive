@@ -18,7 +18,7 @@ export default function PromotionBanner() {
     position: 'relative',
   });
   const innerWrapperClasses = css({
-    borderTop: `4rem solid ${theme.color('quaternary', '-1')}`,
+    // borderTop: `4rem solid ${theme.color('quaternary', '-1')}`,
     position: 'relative',
     paddingTop: '1rem',
     textAlign: 'center',
@@ -36,8 +36,6 @@ export default function PromotionBanner() {
   const headerClasses = css({
     marginTop: '2rem',
     fontWeight: '700',
-    // color: theme.color(...fgColor),
-    // color: theme.color('green', '+2'),
     extend: [ theme.type(4, { lines: 7, }), ],
   });
   const ctaClasses = css({
@@ -49,7 +47,7 @@ export default function PromotionBanner() {
     fontWeight: '700',
 
     '&:hover': {
-      backgroundColor: theme.color('sales'),
+      backgroundColor: theme.color('sales', 'base'),
       color: `${theme.color('bodyText')} !important`,
     },
     '&:focus': {

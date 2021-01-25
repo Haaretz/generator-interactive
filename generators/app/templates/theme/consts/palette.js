@@ -217,8 +217,28 @@ const baseColors = {
       default: '<%= site === "themarker.com" ? "#00A400" : "#006B96" %>',
     },
   },
-  // primary: {},
-  // secondary: {},
+  // primary: {
+  //   '-1': {
+  //     default: 'YOURCOLOR',
+  //   },
+  //   base: {
+  //     default: 'YOURCOLOR',
+  //   },
+  //   '1': {
+  //     default: 'YOURCOLOR',
+  //   },
+  // },
+  // secondary: {
+  //   '-1': {
+  //     default: 'YOURCOLOR',
+  //   },
+  //   base: {
+  //     default: 'YOURCOLOR',
+  //   },
+  //   '1': {
+  //     default: 'YOURCOLOR',
+  //   },
+  // },
   tertiary: {
     '-4': {
       default: '#FEE',

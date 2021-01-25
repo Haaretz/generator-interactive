@@ -7,6 +7,10 @@ const topLevelElementsMap = {
 };
 
 export default function processArticleBody(node) {
+
+  // Handle data from duplicatorwrappers  
+  // if (node.inputTemplate === 'com.tm.DuplicatorElement') return processDuplicatorElement(node);
+
   // Handle Images
   if (node.kind === 'image') {
     return {
@@ -14,6 +18,7 @@ export default function processArticleBody(node) {
       aspect: getImgAspect(node.viewMode),
     };
   }
+
   // Handle html element from Polopoly's WYIYG editor
   if (isNestableElement(node)) {
     const tag = topLevelElementsMap[node.tag];
@@ -31,6 +36,29 @@ export default function processArticleBody(node) {
 ////////////////////////////////////////////////////////////////////////
 //                              HELPERS                               //
 ////////////////////////////////////////////////////////////////////////
+
+// DUPLICATOR PROCESSOR
+
+// function processDuplicatorElement(duplicatorElement) {
+//   const kind = duplicatorElement.contentName;
+
+//   if (kind === 'duplicatorName') {
+//     const data = duplicatorElement.elements.map(element => {
+//       const texts = element.texts
+//       const [ text, title ] = texts;
+      
+//       return { text, title }
+//     });
+
+//     return {
+//       kind,
+//       data
+//     };
+//   }
+
+//   return duplicatorElement;
+// }
+
 
 function isNestableElement(node) {
   const topLevelElementsWhiteList = Object.keys(topLevelElementsMap);

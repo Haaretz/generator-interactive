@@ -18,11 +18,11 @@ export default function Byline({
   return (
     <Wrapper className={wrapperClasses}>
       {writers.map((writer, i) => {
-        const isLast = i === writers.length;
-        const hasMultipleWriters = writers.length > 1;
+        const isLast = i === writers.length - 1;;
 
         return (
           <React.Fragment key={writer.contentName}>
+            {i > 0 ? (isLast ? ' ו' : ', ') : ''}
             <address className={addressClasses}>
               {writer.url ? (
                 <a href={writer.url}>{writer.contentName}</a>
@@ -30,7 +30,6 @@ export default function Byline({
                 writer.contentName
               )}
             </address>
-            {hasMultipleWriters ? (isLast ? ', ' : ' ו') : ''}
           </React.Fragment>
         );
       })}

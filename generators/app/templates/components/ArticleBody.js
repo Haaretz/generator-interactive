@@ -106,6 +106,15 @@ export default function ArticleBody({ isClosed, }) {
 }
 
 function renderData(data, isClosed) {
+
+  // Duplicator renders
+  
+  // if (node.kind === 'DUPLICATOR_NAME') {
+  //   return (
+  //     <h1>INSERT COMPONENT HERE</h1>
+  //   );
+  // }
+
   const elements = data
     .map(node => {
       if (node.kind === 'htmlString') {

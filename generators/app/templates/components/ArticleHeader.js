@@ -3,6 +3,9 @@ import React from 'react';
 
 import { useData, } from './DataContext';
 
+import Byline from './Byline';
+import ShareBar from './ShareBar';
+
 export default function ArticleHeader() {
   const { css, theme, } = useFela();
   const { mobileSubtitle, mobileTitle, subtitle, title, } = useData('article');
@@ -31,6 +34,10 @@ export default function ArticleHeader() {
       <p>
         <Text text={subtitle} mobileText={mobileSubtitle} />
       </p>
+      <div className={`article-header-info ${infoStyles}`}>
+        <Byline />
+        <ShareBar monochrom="bodyText" />
+      </div>
     </header>
   );
 }

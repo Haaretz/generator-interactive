@@ -17,6 +17,7 @@ export default function ShareBar({ fill, }) {
     position: 'relative',
     verticalAlign: 'middle',
     whiteSpace: 'nowrap',
+    display: 'inline-flex',
   });
 
   const btnStyle = {

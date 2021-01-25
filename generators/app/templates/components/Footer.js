@@ -3,21 +3,22 @@ import * as React from 'react';
 
 import IconAlefLogo from './IconAlefLogo';
 import IconMarkerM from './IconMarkerM';
+import IconHaaretzCom from './IconHaaretzComFull';
 import ShareBar from './ShareBar';
 
 import { useData, } from './DataContext';
 
 const logos = {
   'haaretz.co.il': IconAlefLogo,
-  'haaretz.com': IconAlefLogo,
+  'haaretz.com': IconHaaretzCom,
   'themarker.com': IconMarkerM,
 };
 
 export default function Footer() {
-  const { site, siteFromData, } = useData();
+  const { site, } = useData();
   const { css, theme, } = useFela();
 
-  const Logo = logos[site || siteFromData];
+  const Logo = logos[site];
 
   return (
     <footer

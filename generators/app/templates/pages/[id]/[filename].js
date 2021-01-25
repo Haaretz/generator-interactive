@@ -76,7 +76,7 @@ export default function Page({ data, isClosed, site, } = {}) {
           type="text/javascript"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
-            __html: `(function(){var logUrl='/logger/p.gif?a=${articleId}&d=/${sectionContentIds.join('/')}';var referrer=document.referrer;if(referrer&&referrer.length>0){logUrl+='&referrer='+referrer;}var img=document.createElement('img');img.src=logUrl;img.style.position='absolute';img.style.top='0';img.style.pointerEvents='none';document.body.appendChild(img);})()`,
+            __html: `(function(){var logUrl='/logger/p.gif?a=${articleId}&d=/${sectionContentIds.join('/')}';var referrer=document.referrer;if(referrer&&referrer.length>0){logUrl+='&referrer='+referrer;}var img=document.createElement('img');img.src=logUrl;img.style.position='absolute';img.style.transform='translateY(-100%)';img.style.top='0';img.style.pointerEvents='none';document.body.appendChild(img);})()`,
           }}
         />
       </DataProvider>
