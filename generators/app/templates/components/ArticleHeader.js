@@ -34,7 +34,7 @@ export default function ArticleHeader() {
       <p>
         <Text text={subtitle} mobileText={mobileSubtitle} />
       </p>
-      <div className={`article-header-info ${infoStyles}`}>
+      <div className={`article-header-info`}>
         <Byline />
         <ShareBar monochrom="bodyText" />
       </div>

@@ -9,12 +9,14 @@ import splitUrl from '../utils/splitUrl';
  * -------------------------
  *  @example
  * export const PAGES = [
+ *   'https://www.haaretz.co.il/smadar/EXT.premium.EXT-STATIC-1.9480030',
  *   'https://www.haaretz.co.il/health/corona/.premium-MAGAZINE-1.8802422',
  *   'https://www.haaretz.co.il/health/corona/.premium-1.8805016',
  * ];
  * -------------------------
  */
 export const PAGES = [
+  // 'https://www.haaretz.co.il/smadar/EXT.premium.EXT-STATIC-[ARTICLE_ID]]',
 ];
 
 /**
