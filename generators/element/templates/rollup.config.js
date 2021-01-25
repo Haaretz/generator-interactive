@@ -123,6 +123,7 @@ function plugins({ type, } = {}) {
   if (isProd()) {
     pluginList.push(terser({ module: type !== 'nomodule', }));
   }
+  <% if (!inApp) { %>
   if (type === 'style') {
     const sassData = Object.entries({
       isDev: !isProd(),
@@ -151,7 +152,7 @@ function plugins({ type, } = {}) {
 
     pluginList.splice(2, 0, postcss(postcssConfig));
   }
-
+  <% } %>
   // module build
   if (type === 'module') {
     pluginList.unshift(del({
@@ -160,9 +161,7 @@ function plugins({ type, } = {}) {
     }));
   }
   if (type !== 'nomodule') pluginList.push(modulepreloadPlugin());
-
-<% if (!inApp) { %> pluginList.push(fillHtmlPlugin());<% } %>
-
+  <% if (!inApp) { %> pluginList.push(fillHtmlPlugin());<% } %>
   return pluginList;
 }
 
@@ -224,7 +223,7 @@ const nomoduleConfig = () => ({
     clearScreen: false,
   },
 });
-
+<% if (!inApp) { %>
 const stylesConfig = () => ({
   input: { styles: 'src/styles.js', },
   output: {
@@ -237,8 +236,8 @@ const stylesConfig = () => ({
   },
   plugins: plugins({ type: 'style', }),
 });
-
-const configs = [ moduleConfig(), nomoduleConfig(), stylesConfig(), ];
+<% } %>
+const configs = [ moduleConfig(), nomoduleConfig(),<% if (!inApp) { %> stylesConfig(),<% } %> ];
 
 function isProd() {
   return process.env.NODE_ENV === 'production';
