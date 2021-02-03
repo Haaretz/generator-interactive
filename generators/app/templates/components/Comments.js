@@ -8,7 +8,7 @@ import Section from './Section';
 import IconHtzLoader from './IconHtzLoader';
 
 const i18n = {
-  heb: {
+  he: {
     sectionHead: 'תגובות',
 
     nameLabel: 'שם',
@@ -21,7 +21,7 @@ const i18n = {
 
     formSubmit: 'שלחו',
   },
-  eng: {
+  en: {
     sectionHead: 'Comments',
     nameLabel: 'Name',
     nameNoteInitial: 'Enter the commenter display name',
@@ -41,13 +41,6 @@ const commentSectionStyles = ({ theme, miscStyles, }) => ({
   paddingTop: 'calc(2rem - 2px)',
   paddingInlineStart: '2rem',
   paddingInlineEnd: '2rem',
-  ...theme.mq({ from: 'l', }, {
-    display: 'grid',
-    gridTemplateColumns: '30rem 1fr',
-    paddingTop: 'calc(4rem - 2px)',
-    paddingInlineStart: '0',
-    paddingInlineEnd: '0',
-  }),
 
   extend: [
     theme.mq({ from: 'l', }, {
@@ -346,6 +339,7 @@ const commentSectionStyles = ({ theme, miscStyles, }) => ({
 
       '&:after': {
         content: '""',
+        pointerEvents: 'none',
         position: 'absolute',
         zIndex: 1,
         top: '50%',
@@ -359,7 +353,10 @@ const commentSectionStyles = ({ theme, miscStyles, }) => ({
       '& select': {
         backgroundColor: theme.color('commentSecondary', '-4'),
         border: '1px solid currentColor',
-        padding: '0.5rem 1rem 0.5rem 5rem',
+        paddingTop: '0.5rem',
+        paddingBottom: '0.5rem',
+        paddingInlineStart: '1rem',
+        paddingInlineEnd: '5rem',
         marginInlineStart: '2.3rem',
       },
     },
@@ -383,7 +380,7 @@ const sectionHeadStyles = ({ theme, }) => ({
   ],
 });
 
-const commentListStyles = ({ theme, }) => ({
+const commentListStyles = ({ theme, isRtl, }) => ({
   gridColumnStart: 2,
 
   '& .comment': {
@@ -433,9 +430,9 @@ const commentListStyles = ({ theme, }) => ({
       color: theme.color('commentSecondary', '-3'),
       fontSize: '4rem',
       lineHeight: 1,
+      transform: isRtl ? 'none' : 'scale(-1, 1)',
     },
   },
-
 
   '& .commentAuthor': {
     unicodeBidi: 'isolate',
@@ -459,6 +456,7 @@ const commentListStyles = ({ theme, }) => ({
 
     '& .arrowIcon': {
       verticalAlign: '-0.15em',
+      transform: isRtl ? 'none' : 'scale(-1, 1)',
     },
   },
 
@@ -539,20 +537,23 @@ const commentListStyles = ({ theme, }) => ({
 });
 
 export default function Comments({ miscStyles, }) {
-  const { css, } = useFela({ miscStyles, });
   const commentsContentId = useData('commentsContentId');
   const site = useData('site');
   const articleId = useData('articleId');
   const lineage = useData('lineage');
 
-  const lineageStr = lineage && (lineage
-    .slice()
-    .reverse()
-    .reduce((pathFragment, item) => `${pathFragment}%2F${item.contentId}`, '')
-  || articleId);
+  const lineageStr = (
+    lineage && lineage
+      .slice()
+      .reverse()
+      .reduce((pathFragment, item) => `${pathFragment}%2F${item.contentId}`, '')
+  ) || articleId;
 
-  const lang = site === 'haaretz.com' ? 'eng' : 'heb';
+  const lang = site === 'haaretz.com' ? 'en' : 'he';
   const texts = i18n[lang];
+
+  const isRtl = site !== 'haaretz.com';
+  const { css, } = useFela({ miscStyles, isRtl, });
 
   const commentSectionClasses = css(commentSectionStyles);
   const sectionHeadClasses = css(sectionHeadStyles);

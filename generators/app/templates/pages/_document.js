@@ -50,7 +50,7 @@ export default class CustomDocument extends Document {
     return (
       <Html
         lang={LANG}
-        dir={LANG === 'he' ? 'rtl' : 'lrt'}
+        dir={LANG === 'he' ? 'rtl' : 'ltr'}
         {...generateDataAttributes()}
       >
         <Head>
