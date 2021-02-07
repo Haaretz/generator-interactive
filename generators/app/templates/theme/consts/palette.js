@@ -291,10 +291,10 @@ const baseColors = {
     base: {
       default: '#FFA500',
     },
-    '+1': {
+    1: {
       default: '#FA9600',
     },
-    '+2': {
+    2: {
       default: '#ED8600',
     },
   },
