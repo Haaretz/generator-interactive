@@ -39,25 +39,37 @@ export default function processArticleBody(node) {
 
 // DUPLICATOR PROCESSOR
 
-// function processDuplicatorElement(duplicatorElement) {
-//   const kind = duplicatorElement.contentName;
+function processDuplicatorElement(duplicatorElement) {
 
-//   if (kind === 'duplicatorName') {
-//     const data = duplicatorElement.elements.map(element => {
-//       const texts = element.texts
-//       const [ text, title ] = texts;
-      
-//       return { text, title }
-//     });
+  const kind = duplicatorElement.contentName;
 
-//     return {
-//       kind,
-//       data
-//     };
-//   }
+  const data = duplicatorElement.elements.map(element => {
 
-//   return duplicatorElement;
-// }
+    switch (kind) {
+
+      // ADD YOUR DUPLICATORS HERE... case 'DUPLICATOR_NAME'
+
+      // case 'credits':
+
+      //   const creditTexts = element.texts;
+      //   var [creditName, credit] = creditTexts;
+      //   creditName = creditName ? creditName : null;
+      //   credit = credit ? credit : null;
+
+      //   return { name: creditName, credit }
+
+      default:
+        return duplicatorElement;
+    }
+
+  });
+
+  return {
+    kind,
+    data
+  };
+
+}
 
 
 function isNestableElement(node) {
@@ -93,7 +105,7 @@ function stringifyNestedElement(element) {
       // remove manual line breaks
       case 'br':
         return elementHtmlString;
-        // return elementHtmlString + '<br />';
+      // return elementHtmlString + '<br />';
 
       default:
         return `${elementHtmlString}<${tag}${stringifyAttrs(node.attributes)}>${stringifyNestedElement(node.content)}</${tag}>`;
@@ -103,7 +115,7 @@ function stringifyNestedElement(element) {
   return content;
 }
 
-const attrWhiteList = [ /* 'class',*/ 'href', 'target', 'id', 'name', ];
+const attrWhiteList = [ /* 'class',*/ 'href', 'target', 'id', 'name',];
 
 function getAttrsObj(attrs) {
   if (!Array.isArray(attrs)) return {};

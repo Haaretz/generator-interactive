@@ -41,19 +41,19 @@ export default function ArticleBody({ isClosed, }) {
       ':active': focusActiveStyles,
       ':visited': { color: theme.color('bodyText'), },
       ':hover:visited': { color: theme.color('link', 'base'), },
-      extend: [ theme.getTransition(0, 'swiftOut'), ],
+      extend: [theme.getTransition(0, 'swiftOut'),],
     },
 
     '& strong': { fontWeight: '700', },
     '& em': { fontStyle: 'italic', },
     '& u': { textDecoration: 'underline', },
     '&>p': {
-      extend: [ theme.type(1, { lines: 5, }), ],
+      extend: [theme.type(1, { lines: 5, }),],
     },
     '&>h2': {
       marginTop: '4rem',
 
-      extend: [ theme.type(2), ],
+      extend: [theme.type(2),],
     },
     '& mark': {
       backgroundColor: theme.color('bodyTextHighlight'),
@@ -107,16 +107,23 @@ export default function ArticleBody({ isClosed, }) {
 
 function renderData(data, isClosed) {
 
-  // Duplicator renders
-  
-  // if (node.kind === 'DUPLICATOR_NAME') {
-  //   return (
-  //     <h1>INSERT COMPONENT HERE</h1>
-  //   );
-  // }
-
   const elements = data
     .map(node => {
+
+      // Duplicator renders
+
+      // if (node.kind === 'DUPLICATOR_NAME') {
+      //   return (
+      //     <h1>INSERT COMPONENT HERE</h1>
+      //   );
+      // }
+
+      // if (node.kind === 'credits') {
+      //   return (
+      //     <Credits key="credits" data={node.data} />
+      //   );
+      // }
+
       if (node.kind === 'htmlString') {
         const Tag = node.tag;
         return (
@@ -140,7 +147,7 @@ function renderData(data, isClosed) {
               { from: 's', size: '574px', },
               { size: '100vw', },
             ]}
-            widths={[ 320, 420, 580, 840, 1022, ]}
+            widths={[320, 420, 580, 840, 1022,]}
             isLazyload
           />
         );
